@@ -15,7 +15,7 @@ function Header() {
     ]
 
     return (
-        <nav className='h-[80px] py-4 w-full bg-green-200 sticky top-0 z-50 flex justify-evenly items-center '>
+        <nav className='h-[8%] flex-shrink-0 w-full bg-green-200 sticky top-0 flex justify-evenly items-center'>
             <div className='px-4 w-full'>
                 <button
                     className='md:hidden text-3xl'

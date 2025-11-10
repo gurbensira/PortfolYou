@@ -1,13 +1,13 @@
 import React from 'react'
 import { Route, Routes } from "react-router-dom";
 import ROUTES from './routesDict';
-import RegisterPage from '../pages/RegisterPage';
-import LoginPage from '../pages/LoginPage';
-import HomePage from '../pages/HomePage';
-import About from '../pages/About';
-import MyProfile from '../pages/MyProfile';
-import FavoriteProfiles from '../pages/FavoriteProfiles';
-import ErrorPage from "../pages/ErrorPage";
+import RegisterPage from '../pages/pagesComponents/RegisterPage';
+import LoginPage from '../pages/pagesComponents/LoginPage';
+import HomePage from '../pages/pagesComponents/HomePage';
+import About from '../pages/pagesComponents/About';
+import MyProfile from '../pages/pagesComponents/MyProfile';
+import FavoriteProfiles from '../pages/pagesComponents/FavoriteProfiles';
+import ErrorPage from "../pages/pagesComponents/ErrorPage";
 
 
 

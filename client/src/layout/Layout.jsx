@@ -6,9 +6,9 @@ import Footer from './footer/Footer'
 
 function Layout({ children }) {
     return (
-        <div>
+        <div className='h-screen flex flex-col'>
             <Header />
-            <Main>{children}</Main>
+            <Main >{children}</Main>
             <Footer />
         </div>
     )
