@@ -12,7 +12,7 @@ export const Address = new Schema({
   street: DEFAULT_VALIDATION,
   houseNumber: {
     type: Number,
-    required: true,
+    required: false, //change to: true (after i finish the form)
     trim: true,
     minLength: 1,
   },

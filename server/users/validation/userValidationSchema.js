@@ -26,7 +26,7 @@ const userRegistrationSchema = Joi.object({
     phone: Joi.string()
         .ruleset.regex(/0[0-9]{1,2}\-?\s?[0-9]{3}\s?[0-9]{4}/)
         .rule({ message: 'user "phone" must be a valid phone number' })
-        .required(),
+        .allow(), //change to: .required() after finishing the client form
     isBusiness: Joi.boolean(),
     isAdmin: Joi.boolean(),
     address: Joi.object().keys({
@@ -36,7 +36,7 @@ const userRegistrationSchema = Joi.object({
         street: Joi.string().min(2).max(256),
         houseNumber: Joi.number(),
         zip: Joi.number(),
-    }).required(),
+    }).allow(), //change to: .required() after finishing the client form
     image: Joi.object()
         .keys({
             url: Joi.string()
@@ -45,7 +45,7 @@ const userRegistrationSchema = Joi.object({
                 .allow(""),
             alt: Joi.string().min(2).max(256).allow(""),
         })
-        .required(),
+        .allow(), //change to: .required() after finishing the client form
 });
 
 export const userLoginSchema = Joi.object({
