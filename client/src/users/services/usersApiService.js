@@ -9,3 +9,6 @@ export const registerUser = async (userDetailsForServer) => {
         console.log(error);
     }
 };
+
+// TODO! --> login function
+export const login = () => { };

@@ -105,3 +105,13 @@
 5. Test complete registration flow
 6. Deploy!
 
+# PortfolYou - Login Form TODO
+
+### Backend 
+
+[] - make a login endpoint
+
+### Frontend
+
+[] - make onSubmit function in the form
+[] - make login function in userApiService
