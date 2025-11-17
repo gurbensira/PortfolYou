@@ -113,5 +113,5 @@
 
 ### Frontend
 
-[] - make onSubmit function in the form
-[] - make login function in userApiService
+- [] make onSubmit function in the form
+- [] make login function in userApiService
