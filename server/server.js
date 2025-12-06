@@ -7,9 +7,6 @@ import dotenv from "dotenv";
 import serverLogger from './middlewares/loggerService.js';
 dotenv.config();
 
-console.log('JWT_SECRET loaded:', process.env.JWT_SECRET); // Add this line
-console.log('PORT loaded:', process.env.PORT); // Add this line
-
 const app = express();
 const port = process.env.PORT || 3000;
 
