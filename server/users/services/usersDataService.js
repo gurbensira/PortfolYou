@@ -24,3 +24,20 @@ export const createUser = async (user) => {
         throw new Error("MongoDb - Error in creating new user");
     }
 };
+
+export const getUserByEmail = async (email) => {
+    try {
+        const user = await User.findOne({ email });
+        return user;
+
+    } catch (error) {
+        console.error("Mongo error:", error);
+        if (
+            error.name === "MongoNetworkError" ||
+            error.message.includes("ECONNREFUSED")
+        ) {
+            throw new Error("Database connection error");
+        }
+        throw new Error("MongoDb - Error in fetching user by email");
+    }
+};
