@@ -1,10 +1,31 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useCurrentUser } from '../providers/UserProvider';
+import { getUser, setTokenInLocalStorage } from '../services/localStorageService';
+import { login } from '../services/usersApiService';
+import { useNavigate } from 'react-router-dom';
 
 function LoginForm() {
 
+    const { setToken, setUser, user } = useCurrentUser();
+    const navigate = useNavigate();
+
+    const onSubmit = async (user) => {
+        try {
+            const response = await login(user);
+            setTokenInLocalStorage(response.data);
+            setToken(response.data);
+            setUser(getUser());
+            navigate('/');
+        } catch (error) {
+            console.log(error);
+            alert('The login failed');
+        }
+    }
+
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = async (data) => { } //build the function
+
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}
             className='h-[40vh] max-w-md border border-black rounded-md bg-white flex-col flex items-center justify-center gap-5'>

@@ -11,4 +11,11 @@ export const registerUser = async (userDetailsForServer) => {
 };
 
 // TODO! --> login function
-export const login = () => { };
+export const login = async (user) => {
+    try {
+        const response = await axios.post(baseUrl + "/users/login", user);
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+};
