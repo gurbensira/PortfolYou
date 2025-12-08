@@ -12,6 +12,7 @@ function Header() {
         { to: ROUTES.about, label: "About" },
         { to: ROUTES.login, label: "Login" },
         { to: ROUTES.register, label: "Register" },
+        { to: ROUTES.sandbox, label: "SandBox" },
     ]
 
     return (

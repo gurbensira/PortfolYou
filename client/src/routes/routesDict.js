@@ -4,6 +4,7 @@ const ROUTES = {
     favorite: "/favorite",
     myProfile: "/my-profile",
     register: "/register",
-    login: "/login"
+    login: "/login",
+    sandbox: "/sandbox"
 };
 export default ROUTES;

@@ -8,6 +8,7 @@ import About from '../pages/pagesComponents/About';
 import MyProfile from '../pages/pagesComponents/MyProfile';
 import FavoriteProfiles from '../pages/pagesComponents/FavoriteProfiles';
 import ErrorPage from "../pages/pagesComponents/ErrorPage";
+import SandBox from '../pages/pagesComponents/SandBox';
 
 
 
@@ -20,6 +21,7 @@ function Router() {
             <Route path={ROUTES.about} element={<About />} />
             <Route path={ROUTES.myProfile} element={<MyProfile />} />
             <Route path={ROUTES.favorite} element={<FavoriteProfiles />} />
+            <Route path={ROUTES.sandbox} element={<SandBox />} />
             <Route path="/*" element={<ErrorPage />} />
         </Routes>
     )
