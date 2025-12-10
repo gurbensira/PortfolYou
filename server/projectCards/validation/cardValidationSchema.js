@@ -6,7 +6,7 @@ const urlRegex =
 
 const cardSchema = Joi.object({
     title: Joi.string().min(2).max(256).required(),
-    subtitle: Joi.string().min(2).max(256).required(),
+    subtitle: Joi.string().min(2).max(256).allow(),
     description: Joi.string().min(2).max(1024).required(),
     phone: Joi.string()
         .ruleset.regex(/0[0-9]{1,2}\-?\s?[0-9]{3}\s?[0-9]{4}/)
@@ -17,7 +17,7 @@ const cardSchema = Joi.object({
             /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/
         )
         .rule({ message: 'card "email" must be a valid email' })
-        .required(),
+        .allow(),
     web: Joi.string()
         .ruleset.regex(urlRegex)
         .rule({ message: 'card "web" must be a valid url' })
