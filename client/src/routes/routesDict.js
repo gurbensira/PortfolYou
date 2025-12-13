@@ -5,6 +5,7 @@ const ROUTES = {
     myProfile: "/my-profile",
     register: "/register",
     login: "/login",
+    userProfile: "/user-profile",
     sandbox: "/sandbox"
 };
 export default ROUTES;
