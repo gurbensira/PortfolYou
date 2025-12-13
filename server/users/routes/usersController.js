@@ -1,13 +1,15 @@
 import express from "express";
 import { createNewUser, login } from "../services/usersService.js";
+import { uploadSingle } from "../../middlewares/uploadMiddleware.js";
 
 
 const router = express.Router();
 
-router.post("/", async (req, res) => {
+router.post("/", uploadSingle, async (req, res) => {
     try {
         const newUser = req.body;
-        const user = await createNewUser(newUser);
+        const uploadedFile = req.file;
+        const user = await createNewUser(newUser, uploadedFile);
         res.status(201).send(user);
     } catch (error) {
         console.error(error)

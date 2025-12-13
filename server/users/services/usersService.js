@@ -4,8 +4,15 @@ import { comparePassword, generatePassword } from "../helpers/bcrypt.js";
 import { createUser, getUserByEmail } from "./usersDataService.js";
 import { validateUserLogin, validateUserRegistration } from "../validation/userValidationService.js";
 
-export const createNewUser = async (user) => {
+export const createNewUser = async (user, uploadedFile) => {
     try {
+
+        if (uploadedFile) {
+            user.image = {
+                url: uploadedFile.path,
+                alt: user.image?.alt || user.name.first || '',
+            };
+        }
         const { error } = validateUserRegistration(user);
         if (error) {
             throw new Error(error.details[0].message);
@@ -14,7 +21,7 @@ export const createNewUser = async (user) => {
         let hashPass = generatePassword(user.password);
         user.password = hashPass;
         const newUser = await createUser(user);
-        const DTOuser = _.pick(newUser, ["email", "name", "_id"]);
+        const DTOuser = _.pick(newUser, ["email", "name", "_id", "image"]);
         return DTOuser;
     } catch (error) {
         throw new Error(error.message);
