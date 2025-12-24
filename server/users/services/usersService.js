@@ -1,8 +1,9 @@
 import _ from "lodash";
 import { generateToken } from "../../auth/providers/jwtProvider.js";
 import { comparePassword, generatePassword } from "../helpers/bcrypt.js";
-import { createUser, getUserByEmail } from "./usersDataService.js";
-import { validateUserLogin, validateUserRegistration } from "../validation/userValidationService.js";
+import { createUser, deleteUserInDb, getAllUsersFromDb, getUserByEmail, getUserByIdFromDb, updateUserInDb } from "./usersDataService.js";
+import { validateUserLogin, validateUserRegistration, validateUserUpdate } from "../validation/userValidationService.js";
+import User from "../models/User.js";
 
 export const createNewUser = async (user, uploadedFile) => {
     try {
@@ -45,6 +46,73 @@ export const login = async (email, password) => {
         }
 
         return generateToken(user);
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
+
+export const getAllUsers = async () => {
+    try {
+        const users = await getAllUsersFromDb();
+        return users;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
+
+export const getUserById = async (id, loggedInUser) => {
+    try {
+        const user = await getUserByIdFromDb(id);
+
+        // Check authorization
+        if (!loggedInUser.isAdmin && loggedInUser._id.toString() !== id) {
+            throw new Error("Access denied");
+        }
+
+        return user;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
+
+export const updateUser = async (id, newUser, userId) => {
+
+    try {
+        const existingUser = await getUserByIdFromDb(id);
+
+        // Check authorization
+        if (existingUser._id.toString() !== userId.toString()) {
+            throw new Error("Access denied - you can only edit your own user");
+        }
+
+        // Validate update data
+        const { error } = validateUserUpdate(newUser);
+        if (error) {
+            throw new Error(error.details[0].message);
+        }
+
+        // If password is being updated, hash it
+        if (newUser.password) {
+            newUser.password = generatePassword(newUser.password);
+        }
+
+        const modifiedUser = await updateUserInDb(userId, newUser);
+        return modifiedUser;
+
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
+
+export const deleteUser = async (id) => {
+    try {
+        const userToDelete = await getUserByIdFromDb(id);
+        await User.deleteMany({ user_id: id });
+        const deletedUserId = await deleteUserInDb(id);
+        return {
+            id: deletedUserId,
+            name: userToDelete.name
+        };
     } catch (error) {
         throw new Error(error.message);
     }
