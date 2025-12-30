@@ -58,6 +58,12 @@ function RegisterForm() {
                 className='w-[85%] border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
             />
             <input
+                {...register("profession", { required: true })}
+                type="text"
+                placeholder="Profession"
+                className='w-[85%] border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
+            />
+            <input
                 {...register("email", { required: true })}
                 type="email"
                 placeholder="Email"

@@ -7,6 +7,7 @@ const createUserFormData = (userDetails) => {
         formData.append('name[middle]', userDetails.middle);
     }
     formData.append('name[last]', userDetails.last);
+    formData.append('profession', userDetails.profession);
 
     formData.append('phone', userDetails.phone);
     formData.append('email', userDetails.email);
