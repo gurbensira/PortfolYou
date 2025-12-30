@@ -23,3 +23,12 @@ export const login = async (user) => {
         console.log(error);
     }
 };
+
+export const getAllUsers = async () => {
+    try {
+        const response = await axios.get(baseUrl + "/users");
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+};
