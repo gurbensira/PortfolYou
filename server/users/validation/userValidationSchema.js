@@ -9,6 +9,7 @@ const userRegistrationSchema = Joi.object({
         middle: Joi.string().min(2).max(256).allow(""),
         last: Joi.string().min(2).max(256).required(),
     }).required(),
+    profession: Joi.string().min(2).max(256).required(),
     email: Joi.string()
         .ruleset.pattern(
             /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/
@@ -68,6 +69,7 @@ export const userUpdateSchema = Joi.object({
         middle: Joi.string().min(2).max(256).allow(""),
         last: Joi.string().min(2).max(256),
     }),
+    profession: Joi.string().min(2).max(256).required(),
     email: Joi.string()
         .ruleset.pattern(
             /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/
