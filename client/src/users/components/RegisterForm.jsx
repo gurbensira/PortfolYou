@@ -1,16 +1,36 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { registerUser } from '../services/usersApiService'
+import { login, registerUser } from '../services/usersApiService'
 import normalaizeUser from '../helpers/formData/createUserFormData';
+import { useNavigate } from "react-router-dom";
+import { useCurrentUser } from '../providers/UserProvider';
+import { getUser, setTokenInLocalStorage } from '../services/localStorageService';
 
 function RegisterForm() {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const { setToken, setUser } = useCurrentUser();
+    const navigate = useNavigate();
 
     const onSubmit = async (data) => {
+
         try {
             const normalizedData = normalaizeUser(data);
             const response = await registerUser(normalizedData);
             console.log('Registration successful:', response);
+
+            const loginData = {
+                email: data.email,
+                password: data.password
+            };
+
+            const loginResponse = await login(loginData);
+
+            setTokenInLocalStorage(loginResponse.data);
+            setToken(loginResponse.data);
+            setUser(getUser());
+
+            navigate('/');
+
         } catch (error) {
             console.error('Registration failed:', error);
         }
