@@ -22,7 +22,7 @@ function Router() {
             <Route path={ROUTES.about} element={<About />} />
             <Route path={ROUTES.myProfile} element={<MyProfile />} />
             <Route path={ROUTES.favorite} element={<FavoriteProfiles />} />
-            <Route path={ROUTES.userProfile} element={<UserProfile />} />
+            <Route path={`${ROUTES.userProfile}/:userId`} element={<UserProfile />} />
             <Route path={ROUTES.sandbox} element={<SandBox />} />
             <Route path="/*" element={<ErrorPage />} />
         </Routes>

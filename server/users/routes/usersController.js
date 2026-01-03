@@ -1,7 +1,7 @@
 import express from "express";
-import { createNewUser, deleteUser, getAllUsers, getUserById, login, updateUser } from "../services/usersService.js";
+import { createNewUser, deleteUser, getAllUsers, getFullUserProfile, getPublicUserProfile, login, updateUser } from "../services/usersService.js";
 import { uploadSingle } from "../../middlewares/uploadMiddleware.js";
-import { auth } from "../../auth/services/authService.js"
+import { auth, optionalAuth } from "../../auth/services/authService.js"
 
 
 const router = express.Router();
@@ -39,10 +39,21 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:id", auth, async (req, res) => {
+router.get("/:id", optionalAuth, async (req, res) => {
     try {
         const { id } = req.params;
-        const user = await getUserById(id, req.user);
+        const loggedInUser = req.user; // Will be null if not authenticated
+
+        let user;
+
+        // If user is authenticated AND (viewing own profile OR is admin)
+        if (loggedInUser && (loggedInUser._id === id || loggedInUser.isAdmin)) {
+            user = await getFullUserProfile(id, loggedInUser);
+        } else {
+            // Otherwise, return public profile only
+            user = await getPublicUserProfile(id);
+        }
+
         res.send(user);
     } catch (error) {
         console.error("Error getting user:", error);

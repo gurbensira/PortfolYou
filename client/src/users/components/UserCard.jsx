@@ -1,7 +1,15 @@
 import React from 'react'
+import ROUTES from "../../routes/routesDict";
+import { useNavigate } from "react-router-dom";
 
 function UserCard({ user }) {
     const fullName = `${user.name?.first || ''} ${user.name?.middle ? user.name.middle + ' ' : ''}${user.name?.last || ''}`.trim();
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`${ROUTES.userProfile}/${user._id}`);
+    };
+
     return (
         <div className='w-[85%] sm:w-[250px] md:w-[280px] lg:w-[300px] bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden'>
             {/* Profile Image Section */}
@@ -28,11 +36,12 @@ function UserCard({ user }) {
 
                 {/* View Profile Link */}
 
-                <a href={`/profile/${user._id}`}
-                    className="inline-block mt-4 px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm font-medium rounded-full hover:shadow-md transition-all duration-300"
+                <button
+                    onClick={handleClick}
+                    className="inline-block mt-4 px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm font-medium rounded-full hover:shadow-md transition-all duration-300 cursor-pointer"
                 >
                     View Profile
-                </a>
+                </button>
             </div>
         </div >
     )

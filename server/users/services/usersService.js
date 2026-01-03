@@ -60,16 +60,42 @@ export const getAllUsers = async () => {
     }
 };
 
-export const getUserById = async (id, loggedInUser) => {
+export const getFullUserProfile = async (id, loggedInUser) => {
     try {
         const user = await getUserByIdFromDb(id);
 
-        // Check authorization
+        // Check authorization - only owner or admin can see full profile
         if (!loggedInUser.isAdmin && loggedInUser._id.toString() !== id) {
-            throw new Error("Access denied");
+            throw new Error("Access denied - you can only view your own full profile");
         }
 
-        return user;
+        // Return full user data (excluding password)
+        const fullUser = user.toObject();
+        delete fullUser.password; // Never return password, even hashed!
+
+        return fullUser;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
+
+export const getPublicUserProfile = async (id) => {
+    try {
+        const user = await getUserByIdFromDb(id);
+
+        // Return only public fields
+        return {
+            _id: user._id,
+            name: user.name,
+            image: user.image,
+            profession: user.profession,
+            address: {
+                city: user.address?.city,
+                country: user.address?.country
+            },
+            createdAt: user.createdAt
+            // Add any other public portfolio fields
+        };
     } catch (error) {
         throw new Error(error.message);
     }
