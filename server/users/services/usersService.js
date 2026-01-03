@@ -51,10 +51,33 @@ export const login = async (email, password) => {
     }
 };
 
+// export const getAllUsers = async () => {
+//     try {
+//         const users = await getAllUsersFromDb();
+//         return users;
+//     } catch (error) {
+//         throw new Error(error.message);
+//     }
+// };
+
 export const getAllUsers = async () => {
     try {
         const users = await getAllUsersFromDb();
-        return users;
+
+        // Return only public fields for each user
+        const publicUsers = users.map(user =>
+            _.pick(user, [
+                "_id",
+                "name",
+                "image",
+                "profession",
+                "address.city",
+                "address.country",
+                "createdAt"
+            ])
+        );
+
+        return publicUsers;
     } catch (error) {
         throw new Error(error.message);
     }
