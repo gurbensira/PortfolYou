@@ -42,6 +42,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", optionalAuth, async (req, res) => {
     try {
         const { id } = req.params;
+
         const loggedInUser = req.user; // Will be null if not authenticated
 
         let user;
@@ -53,7 +54,6 @@ router.get("/:id", optionalAuth, async (req, res) => {
             // Otherwise, return public profile only
             user = await getPublicUserProfile(id);
         }
-
         res.send(user);
     } catch (error) {
         console.error("Error getting user:", error);

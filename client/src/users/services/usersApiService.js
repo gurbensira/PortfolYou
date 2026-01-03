@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getToken } from "./localStorageService";
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export const registerUser = async (userDetailsForServer) => {
@@ -34,8 +35,13 @@ export const getAllUsers = async () => {
 };
 
 export const getUserById = async (userId) => {
+    const token = getToken()
     try {
-        const response = await axios.get(baseUrl + "/users/" + userId);
+        const response = await axios.get(`${baseUrl}/users/${userId}`, {
+            headers: {
+                'x-auth-token': token
+            }
+        });
         return response;
     } catch (error) {
         console.log(error);
