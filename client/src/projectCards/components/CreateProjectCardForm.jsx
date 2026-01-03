@@ -1,9 +1,9 @@
 
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { createCard } from '../helpers/services/projectCardApiService';
 import createCardFormData from '../helpers/formData/createCardFormData';
 import { useNavigate } from 'react-router-dom';
+import { createCard } from '../services/projectCardApiService';
 
 function CreateProjectCardForm() {
     const { register, handleSubmit, formState: { errors } } = useForm();

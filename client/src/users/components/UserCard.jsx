@@ -1,13 +1,20 @@
-import React from 'react'
+import React from 'react';
 import ROUTES from "../../routes/routesDict";
 import { useNavigate } from "react-router-dom";
+import { useCurrentUser } from '../providers/UserProvider';
 
 function UserCard({ user }) {
     const fullName = `${user.name?.first || ''} ${user.name?.middle ? user.name.middle + ' ' : ''}${user.name?.last || ''}`.trim();
     const navigate = useNavigate();
+    const { user: currentUser } = useCurrentUser(); // Get logged-in user
 
     const handleClick = () => {
-        navigate(`${ROUTES.userProfile}/${user._id}`);
+        // Check if this is the logged-in user's own card
+        if (currentUser && currentUser._id === user._id) {
+            navigate(ROUTES.myProfile); // Go to "My Profile" page
+        } else {
+            navigate(`${ROUTES.userProfile}/${user._id}`); // Go to public profile
+        }
     };
 
     return (
@@ -34,17 +41,16 @@ function UserCard({ user }) {
                     </p>
                 )}
 
-                {/* View Profile Link */}
-
+                {/* View Profile Button */}
                 <button
                     onClick={handleClick}
                     className="inline-block mt-4 px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm font-medium rounded-full hover:shadow-md transition-all duration-300 cursor-pointer"
                 >
-                    View Profile
+                    {currentUser && currentUser._id === user._id ? 'View My Profile' : 'View Profile'}
                 </button>
             </div>
-        </div >
+        </div>
     )
 }
 
-export default UserCard
+export default UserCard;

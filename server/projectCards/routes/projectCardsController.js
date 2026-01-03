@@ -1,5 +1,5 @@
 import express from "express";
-import { createNewCard, deleteCard, getAllCards, getAllMyCards, getCardById, toggleLikeCard, updateCard } from "../services/cardsService.js";
+import { createNewCard, deleteCard, getAllCards, getAllMyCards, getCardById, toggleLikeCard, updateCard, getUserCards } from "../services/cardsService.js";
 import { getCardByIdFromDb } from "../services/cardsDataService.js";
 import { auth } from "../../auth/services/authService.js";
 import { uploadSingle } from "../../middlewares/uploadMiddleware.js";
@@ -43,6 +43,23 @@ router.get("/my-cards", auth, async (req, res) => {
     } catch (error) {
         console.error("Error getting my cards:", error);
         res.status(400).send(error.message);
+    }
+});
+
+// NEW ROUTE - Get cards by user ID (public, uses service layer)
+router.get("/users/:userId", async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const userCards = await getUserCards(userId); // Uses service layer
+        res.send(userCards);
+    } catch (error) {
+        console.error("Error getting user cards:", error);
+
+        if (error.message === "Invalid user ID format") {
+            return res.status(400).send(error.message);
+        }
+
+        res.status(500).send(error.message);
     }
 });
 

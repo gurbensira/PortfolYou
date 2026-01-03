@@ -19,4 +19,14 @@ export const createCard = async (formData) => {
         console.error('API Error:', error.response?.data || error.message)
         throw error
     }
-}
+};
+
+export const getCardsByUserId = async (userId) => {
+    try {
+        const response = await axios.get(`${baseUrl}/projectCards/users/${userId}`);
+        return response;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
