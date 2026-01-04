@@ -51,15 +51,6 @@ export const login = async (email, password) => {
     }
 };
 
-// export const getAllUsers = async () => {
-//     try {
-//         const users = await getAllUsersFromDb();
-//         return users;
-//     } catch (error) {
-//         throw new Error(error.message);
-//     }
-// };
-
 export const getAllUsers = async () => {
     try {
         const users = await getAllUsersFromDb();
@@ -158,33 +149,37 @@ export const updateUser = async (id, newUser, userId) => {
 };
 
 export const toggleFollowUser = async (targetUserId, currentUserId) => {
-
     try {
-
-        if (currentUserId === targetUserId) {
+        if (currentUserId.toString() === targetUserId.toString()) {
             throw new Error("Cannot follow yourself");
         }
 
         const currentUser = await getUserByIdFromDb(currentUserId);
         const targetUser = await getUserByIdFromDb(targetUserId);
 
-        const userFollowersIndex = targetUser.followers.indexOf(currentUserId);
-        const userFollowingIndex = currentUser.following.indexOf(targetUserId);
+        let followerIds = [...new Set(targetUser.followers.map(f =>
+            (typeof f === 'string' ? f : f._id).toString()
+        ))];
+        let followingIds = [...new Set(currentUser.following.map(f =>
+            (typeof f === 'string' ? f : f._id).toString()
+        ))];
 
-        if (userFollowersIndex === -1) {
-            targetUser.followers.push(currentUserId);
+        const currentUserIdStr = currentUserId.toString();
+        const targetUserIdStr = targetUserId.toString();
+
+        const isFollowing = followingIds.includes(targetUserIdStr);
+
+        if (isFollowing) {
+            followingIds = followingIds.filter(id => id !== targetUserIdStr);
+            followerIds = followerIds.filter(id => id !== currentUserIdStr);
         } else {
-            targetUser.followers.splice(userFollowersIndex, 1);
+            followingIds.push(targetUserIdStr);
+            followerIds.push(currentUserIdStr);
         }
 
-        if (userFollowingIndex === -1) {
-            currentUser.following.push(targetUserId);
-        } else {
-            currentUser.following.splice(userFollowingIndex, 1);
-        }
+        await updateUserInDb(targetUserId, { followers: followerIds });
+        const updatedCurrentUser = await updateUserInDb(currentUserId, { following: followingIds });
 
-        await updateUserInDb(targetUserId, { followers: targetUser.followers });
-        const updatedCurrentUser = await updateUserInDb(currentUserId, { following: currentUser.following });
         return updatedCurrentUser;
 
     } catch (error) {

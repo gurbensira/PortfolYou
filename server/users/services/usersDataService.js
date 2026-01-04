@@ -44,7 +44,9 @@ export const getUserByEmail = async (email) => {
 
 export const getAllUsersFromDb = async () => {
     try {
-        const users = await User.find();
+        const users = await User.find()
+            .populate('following', 'name image profession address')
+            .populate('followers', 'name image profession address');
         return users;
     } catch (error) {
         console.error("Mongo error:", error);
@@ -60,7 +62,9 @@ export const getAllUsersFromDb = async () => {
 
 export const getUserByIdFromDb = async (id) => {
     try {
-        const user = await User.findById(id);
+        const user = await User.findById(id)
+            .populate('following', 'name image profession address')
+            .populate('followers', 'name image profession address');
         if (!user) {
             throw new Error("User not found");
         }

@@ -16,8 +16,10 @@ function Header() {
     const navLinks = {
         left: [
             { to: ROUTES.root, label: "Home" },
-            { to: ROUTES.favorite, label: "Favorite" },
-            { to: ROUTES.myProfile, label: "My profile" },
+            ...(user ? [
+                { to: ROUTES.favorite, label: "Favorite" },
+                { to: ROUTES.myProfile, label: "My profile" },
+            ] : []),
             { to: ROUTES.about, label: "About" },
         ],
         right: user ? [
@@ -27,7 +29,6 @@ function Header() {
 
             { to: ROUTES.login, label: "Login" },
             { to: ROUTES.register, label: "Register" },
-            { to: ROUTES.sandbox, label: "SandBox" },
         ]
     }
 

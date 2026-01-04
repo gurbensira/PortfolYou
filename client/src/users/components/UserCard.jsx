@@ -12,8 +12,15 @@ function UserCard({ user }) {
     }, [user.name]);
     const { followers } = user;
     const navigate = useNavigate();
-    const { user: currentUser } = useCurrentUser(); // Get logged-in user
-    const [isFollow, setIsFollow] = useState(() => followers.includes(currentUser?._id));
+    const { user: currentUser, refetchUser } = useCurrentUser(); // Get logged-in user
+    const [isFollow, setIsFollow] = useState(() => {
+        if (!currentUser?._id || !followers?.length) return false;
+
+        return followers.some(follower => {
+            const followerId = typeof follower === 'string' ? follower : follower._id;
+            return followerId === currentUser._id;
+        });
+    });
 
 
 
@@ -28,14 +35,16 @@ function UserCard({ user }) {
     };
 
     const handleClickFollowBtn = async (e) => {
-        e.preventDefault(); // Prevent any default behavior
-        e.stopPropagation(); // Stop event bubbling
-        if (user._id === currentUser._id) return
+        if (!currentUser) return;
+        e.preventDefault();
+        e.stopPropagation();
+        if (user._id === currentUser._id) return;
+
         try {
-            setIsFollow((prev) => !prev); // Optimistic update
+            setIsFollow((prev) => !prev);
             await toggleFollowUser(user._id);
+            await refetchUser(); // Refetch to get updated following list
         } catch (error) {
-            // If it fails, revert the UI
             setIsFollow((prev) => !prev);
             console.error('Failed to follow/unfollow:', error);
         }

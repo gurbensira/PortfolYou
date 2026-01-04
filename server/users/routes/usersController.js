@@ -2,6 +2,7 @@ import express from "express";
 import { createNewUser, deleteUser, getAllUsers, getFullUserProfile, getPublicUserProfile, login, toggleFollowUser, updateUser } from "../services/usersService.js";
 import { uploadSingle } from "../../middlewares/uploadMiddleware.js";
 import { auth, optionalAuth } from "../../auth/services/authService.js"
+import User from "../models/User.js";
 
 
 const router = express.Router();
@@ -38,6 +39,7 @@ router.get("/", async (req, res) => {
         res.status(500).send(error.message);
     }
 });
+
 
 router.get("/:id", optionalAuth, async (req, res) => {
     try {
