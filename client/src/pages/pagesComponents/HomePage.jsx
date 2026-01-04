@@ -29,7 +29,7 @@ function HomePage() {
 
         fetchUsers();
 
-    }, [currentUser]);
+    }, [!currentUser]);
 
     useEffect(() => {
         if (activeView === 'following' && currentUser?.following) {
