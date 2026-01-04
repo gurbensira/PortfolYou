@@ -1,5 +1,5 @@
 import express from "express";
-import { createNewUser, deleteUser, getAllUsers, getFullUserProfile, getPublicUserProfile, login, updateUser } from "../services/usersService.js";
+import { createNewUser, deleteUser, getAllUsers, getFullUserProfile, getPublicUserProfile, login, toggleFollowUser, updateUser } from "../services/usersService.js";
 import { uploadSingle } from "../../middlewares/uploadMiddleware.js";
 import { auth, optionalAuth } from "../../auth/services/authService.js"
 
@@ -94,6 +94,30 @@ router.put("/:id", auth, uploadSingle, async (req, res) => {
             return res.status(403).send(error.message);
         }
         if (error.message.includes("Validation failed") || error.message.includes("Email already exists") || error.message.includes("must")) {
+            return res.status(400).send(error.message);
+        }
+
+        res.status(500).send(error.message);
+    }
+});
+
+router.patch("/follow/:id", auth, async (req, res) => {
+    try {
+        const { id } = req.params; // User to follow/unfollow
+        const currentUser = req.user; // Authenticated user (from auth middleware)
+
+        const result = await toggleFollowUser(id, currentUser._id);
+        res.send(result);
+    } catch (error) {
+        console.error("Error toggling follow:", error);
+
+        if (error.message === "Cannot follow yourself") {
+            return res.status(400).send(error.message);
+        }
+        if (error.message === "User not found") {
+            return res.status(404).send(error.message);
+        }
+        if (error.message === "Invalid user ID format") {
             return res.status(400).send(error.message);
         }
 

@@ -22,6 +22,14 @@ const userSchema = new Schema({
   address: Address,
   isAdmin: { type: Boolean, default: false },
   isBusiness: { type: Boolean, default: false },
+  following: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  followers: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }],
   createdAt: {
     type: Date,
     default: Date.now,

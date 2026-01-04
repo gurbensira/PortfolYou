@@ -153,6 +153,41 @@ export const updateUser = async (id, newUser, userId) => {
     }
 };
 
+export const toggleFollowUser = async (targetUserId, currentUserId) => {
+
+    try {
+
+        if (currentUserId === targetUserId) {
+            throw new Error("Cannot follow yourself");
+        }
+
+        const currentUser = await getUserByIdFromDb(currentUserId);
+        const targetUser = await getUserByIdFromDb(targetUserId);
+
+        const userFollowersIndex = targetUser.followers.indexOf(currentUserId);
+        const userFollowingIndex = currentUser.following.indexOf(targetUserId);
+
+        if (userFollowersIndex === -1) {
+            targetUser.followers.push(currentUserId);
+        } else {
+            targetUser.followers.splice(userFollowersIndex, 1);
+        }
+
+        if (userFollowingIndex === -1) {
+            currentUser.following.push(targetUserId);
+        } else {
+            currentUser.following.splice(userFollowingIndex, 1);
+        }
+
+        await updateUserInDb(targetUserId, { followers: targetUser.followers });
+        const updatedCurrentUser = await updateUserInDb(currentUserId, { following: currentUser.following });
+        return updatedCurrentUser;
+
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
 export const deleteUser = async (id) => {
     try {
         const userToDelete = await getUserByIdFromDb(id);
