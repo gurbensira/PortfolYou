@@ -2,11 +2,20 @@ import React from 'react';
 import ROUTES from "../../routes/routesDict";
 import { useNavigate } from "react-router-dom";
 import { useCurrentUser } from '../providers/UserProvider';
+import { useState } from 'react';
+import { toggleFollowUser } from '../services/usersApiService';
+import { useMemo } from 'react';
 
 function UserCard({ user }) {
-    const fullName = `${user.name?.first || ''} ${user.name?.middle ? user.name.middle + ' ' : ''}${user.name?.last || ''}`.trim();
+    const fullName = useMemo(() => {
+        return `${user.name?.first || ''} ${user.name?.middle ? user.name.middle + ' ' : ''}${user.name?.last || ''}`.trim();
+    }, [user.name]);
+    const { followers } = user;
     const navigate = useNavigate();
     const { user: currentUser } = useCurrentUser(); // Get logged-in user
+    const [isFollow, setIsFollow] = useState(() => followers.includes(currentUser?._id));
+
+
 
     const handleClick = () => {
         // Check if this is the logged-in user's own card
@@ -14,6 +23,21 @@ function UserCard({ user }) {
             navigate(ROUTES.myProfile); // Go to "My Profile" page
         } else {
             navigate(`${ROUTES.userProfile}/${user._id}`); // Go to public profile
+        }
+
+    };
+
+    const handleClickFollowBtn = async (e) => {
+        e.preventDefault(); // Prevent any default behavior
+        e.stopPropagation(); // Stop event bubbling
+        if (user._id === currentUser._id) return
+        try {
+            setIsFollow((prev) => !prev); // Optimistic update
+            await toggleFollowUser(user._id);
+        } catch (error) {
+            // If it fails, revert the UI
+            setIsFollow((prev) => !prev);
+            console.error('Failed to follow/unfollow:', error);
         }
     };
 
@@ -47,6 +71,14 @@ function UserCard({ user }) {
                     className="inline-block mt-4 px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm font-medium rounded-full hover:shadow-md transition-all duration-300 cursor-pointer"
                 >
                     {currentUser && currentUser._id === user._id ? 'View My Profile' : 'View Profile'}
+                </button>
+
+                {/* Fpllow Button */}
+                <button
+                    onClick={handleClickFollowBtn}
+                    className="inline-block mt-4 px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm font-medium rounded-full hover:shadow-md transition-all duration-300 cursor-pointer"
+                >
+                    {!isFollow ? 'Follow' : 'Unfollow'}
                 </button>
             </div>
         </div>

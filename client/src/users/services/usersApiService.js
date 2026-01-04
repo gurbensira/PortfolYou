@@ -35,8 +35,8 @@ export const getAllUsers = async () => {
 };
 
 export const getUserById = async (userId) => {
-    const token = getToken()
     try {
+        const token = getToken()
         const response = await axios.get(`${baseUrl}/users/${userId}`, {
             headers: {
                 'x-auth-token': token
@@ -48,3 +48,18 @@ export const getUserById = async (userId) => {
         throw error;
     }
 };
+
+export const toggleFollowUser = async (userId) => {
+    try {
+        const token = getToken()
+        const response = await axios.patch(`${baseUrl}/users/follow/${userId}`, {}, {
+            headers: {
+                'x-auth-token': token
+            }
+        });
+        return response;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+} 

@@ -71,6 +71,8 @@ export const getAllUsers = async () => {
                 "name",
                 "image",
                 "profession",
+                "following",
+                "followers",
                 "address.city",
                 "address.country",
                 "createdAt"
@@ -112,6 +114,8 @@ export const getPublicUserProfile = async (id) => {
             name: user.name,
             image: user.image,
             profession: user.profession,
+            following: user.following,
+            followers: user.followers,
             address: {
                 city: user.address?.city,
                 country: user.address?.country
