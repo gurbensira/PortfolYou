@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { getAllUsers } from '../../users/services/usersApiService'
 import UserCard from '../../users/components/UserCard'
 import { useCurrentUser } from '../../users/providers/UserProvider';
+import LoggedUserHeroSection from '../componentsForPages/LoggedUserHeroSection';
+import HeroSection from '../componentsForPages/HeroSection';
 
 function HomePage() {
     const { user: currentUser } = useCurrentUser();
@@ -108,20 +110,23 @@ function HomePage() {
 
     return (
         <div className="min-h-screen p-8">
-            <div className='flex items-center justify-center gap-4'>
-                <h2 onClick={handleShowAll} className={`text-xl sm:text-2xl md:text-3xl font-bold mb-8 text-center cursor-pointer transition-colors ${activeView === 'all' ? 'text-gray-800' : 'text-gray-400 hover:text-gray-600'
-                    }`}>Our Community</h2>
-                <h2
-                    onClick={handleShowFollowing}
-                    className={`text-xl sm:text-2xl md:text-3xl font-bold mb-8 text-center cursor-pointer transition-colors ${activeView === 'following'
-                        ? 'text-blue-600'
-                        : 'text-gray-400 hover:text-blue-400'
-                        }`}
-                >
-                    Following
-                </h2>
+            <div className='flex flex-col px-6'>
+                {currentUser ? <LoggedUserHeroSection user={currentUser} /> : <HeroSection />}
+                <div className='flex items-center justify-center gap-4 '>
+                    <h2 onClick={handleShowAll} className={`text-xl sm:text-2xl md:text-3xl font-bold mb-8 text-center cursor-pointer transition-colors ${activeView === 'all' ? 'text-gray-800' : 'text-gray-400 hover:text-gray-600'
+                        }`}>Our Community</h2>
+                    <h2
+                        onClick={handleShowFollowing}
+                        className={`text-xl sm:text-2xl md:text-3xl font-bold mb-8 text-center cursor-pointer transition-colors ${activeView === 'following'
+                            ? 'text-blue-600'
+                            : 'text-gray-400 hover:text-blue-400'
+                            }`}
+                    >
+                        Following
+                    </h2>
+                </div>
             </div>
-            <div className="flex flex-wrap gap-6 justify-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 justify-items-center">
                 {usersToshow.map((user) => (
                     <UserCard key={user._id} user={user} />
                 ))}
