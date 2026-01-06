@@ -1,0 +1,31 @@
+<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Icon: Modern abstract portfolio concept -->
+  <g id="icon">
+    <!-- Abstract geometric shapes representing portfolio pieces -->
+    
+    <!-- Large square (main portfolio piece) -->
+    <rect x="10" y="17" width="16" height="16" rx="2.5" fill="url(#gradient1)" opacity="0.9"/>
+    
+    <!-- Small square (top right - creative spark) -->
+    <rect x="28" y="12" width="11" height="11" rx="2" fill="#a855f7" opacity="0.8"/>
+    
+    <!-- Circle (bottom right - profile/personal) -->
+    <circle cx="34" cy="34" r="5.5" fill="#3b82f6" opacity="0.85"/>
+    
+    <!-- Connection lines (abstract network) -->
+    <line x1="26" y1="25" x2="28" y2="17.5" stroke="url(#gradient1)" stroke-width="2.5" opacity="0.4" stroke-linecap="round"/>
+    <line x1="26" y1="28" x2="31" y2="31" stroke="#a855f7" stroke-width="2.5" opacity="0.4" stroke-linecap="round"/>
+    
+    <!-- Sparkle accent -->
+    <path d="M 41 14 L 42.5 15.5 L 41 17 L 39.5 15.5 Z" fill="#fbbf24" opacity="0.8"/>
+    <circle cx="8" cy="23" r="2" fill="#fbbf24" opacity="0.6"/>
+  </g>
+  
+  <!-- Gradients -->
+  <defs>
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>
