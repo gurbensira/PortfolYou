@@ -29,13 +29,37 @@ function HomePage() {
 
         fetchUsers();
 
-    }, [!currentUser]);
+    }, [currentUser?._id]);
 
+    // Silent refetch when following changes (no loading state)
+    useEffect(() => {
+        const silentRefetch = async () => {
+            try {
+                const response = await getAllUsers();
+                setAllUsers(response.data);
+                // Update usersToshow if we're in 'all' view
+                if (activeView === 'all') {
+                    setUsersToshow(response.data);
+                }
+            } catch (err) {
+                console.error('Silent refetch failed:', err);
+            }
+        };
+
+        // Only refetch if user is logged in and following array exists
+        if (currentUser?.following) {
+            silentRefetch();
+        }
+    }, [currentUser?.following, activeView]);
+
+    // Update displayed users when view changes
     useEffect(() => {
         if (activeView === 'following' && currentUser?.following) {
             setUsersToshow(currentUser.following);
+        } else if (activeView === 'all') {
+            setUsersToshow(allUsers);
         }
-    }, [currentUser?.following, activeView]);
+    }, [activeView, allUsers, currentUser?.following]);
 
     const handleShowAll = () => {
         setUsersToshow(allUsers);
