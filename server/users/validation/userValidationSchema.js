@@ -17,11 +17,17 @@ const userRegistrationSchema = Joi.object({
         .rule({ message: 'user "email" must be a valid email' })
         .required(),
     password: Joi.string()
-        .min(6)
+        .min(8)
         .max(1024)
+        .ruleset.pattern(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@%$#^&*\-_]).{8,}$/
+        )
+        .rule({
+            message: 'password must contain at least 1 uppercase letter, 1 lowercase letter, 4 numbers, 1 special character (!@%$#^&*-_), and be at least 8 characters long'
+        })
         .required()
         .messages({
-            'string.min': 'password must be at least 6 characters long',
+            'string.min': 'password must be at least 8 characters long',
             'any.required': 'password is required'
         }),
     phone: Joi.string()
@@ -57,8 +63,17 @@ export const userLoginSchema = Joi.object({
         .rule({ message: 'user "email" must be a valid email' })
         .required(),
     password: Joi.string()
+        .min(8)
+        .max(1024)
+        .ruleset.pattern(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@%$#^&*\-_]).{8,}$/
+        )
+        .rule({
+            message: 'password must contain at least 1 uppercase letter, 1 lowercase letter, 4 numbers, 1 special character (!@%$#^&*-_), and be at least 8 characters long'
+        })
         .required()
         .messages({
+            'string.min': 'password must be at least 8 characters long',
             'any.required': 'password is required'
         }),
 });
@@ -69,17 +84,25 @@ export const userUpdateSchema = Joi.object({
         middle: Joi.string().min(2).max(256).allow(""),
         last: Joi.string().min(2).max(256),
     }),
-    profession: Joi.string().min(2).max(256).required(),
+    profession: Joi.string().min(2).max(256).allow(),
     email: Joi.string()
         .ruleset.pattern(
             /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/
         )
         .rule({ message: 'user "email" must be a valid email' }),
     password: Joi.string()
-        .min(6)
+        .min(8)
         .max(1024)
+        .ruleset.pattern(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@%$#^&*\-_]).{8,}$/
+        )
+        .rule({
+            message: 'password must contain at least 1 uppercase letter, 1 lowercase letter, 4 numbers, 1 special character (!@%$#^&*-_), and be at least 8 characters long'
+        })
+        .required()
         .messages({
-            'string.min': 'password must be at least 6 characters long'
+            'string.min': 'password must be at least 8 characters long',
+            'any.required': 'password is required'
         }),
     phone: Joi.string()
         .ruleset.regex(/0[0-9]{1,2}\-?\s?[0-9]{3}\s?[0-9]{4}/)
