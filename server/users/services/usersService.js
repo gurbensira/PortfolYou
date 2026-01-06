@@ -51,11 +51,10 @@ export const login = async (email, password) => {
     }
 };
 
-export const getAllUsers = async () => {
+export const getAllUsers = async (page = 1, limit = 20) => {
     try {
-        const users = await getAllUsersFromDb();
+        const { users, pagination } = await getAllUsersFromDb(page, limit);
 
-        // Return only public fields for each user
         const publicUsers = users.map(user =>
             _.pick(user, [
                 "_id",
@@ -70,7 +69,10 @@ export const getAllUsers = async () => {
             ])
         );
 
-        return publicUsers;
+        return {
+            data: publicUsers,
+            pagination
+        };
     } catch (error) {
         throw new Error(error.message);
     }
@@ -80,14 +82,12 @@ export const getFullUserProfile = async (id, loggedInUser) => {
     try {
         const user = await getUserByIdFromDb(id);
 
-        // Check authorization - only owner or admin can see full profile
         if (!loggedInUser.isAdmin && loggedInUser._id.toString() !== id) {
             throw new Error("Access denied - you can only view your own full profile");
         }
 
-        // Return full user data (excluding password)
         const fullUser = user.toObject();
-        delete fullUser.password; // Never return password, even hashed!
+        delete fullUser.password;
 
         return fullUser;
     } catch (error) {
@@ -99,7 +99,6 @@ export const getPublicUserProfile = async (id) => {
     try {
         const user = await getUserByIdFromDb(id);
 
-        // Return only public fields
         return {
             _id: user._id,
             name: user.name,
@@ -112,7 +111,6 @@ export const getPublicUserProfile = async (id) => {
                 country: user.address?.country
             },
             createdAt: user.createdAt
-            // Add any other public portfolio fields
         };
     } catch (error) {
         throw new Error(error.message);
@@ -124,18 +122,15 @@ export const updateUser = async (id, newUser, userId) => {
     try {
         const existingUser = await getUserByIdFromDb(id);
 
-        // Check authorization
         if (existingUser._id.toString() !== userId.toString()) {
             throw new Error("Access denied - you can only edit your own user");
         }
 
-        // Validate update data
         const { error } = validateUserUpdate(newUser);
         if (error) {
             throw new Error(error.details[0].message);
         }
 
-        // If password is being updated, hash it
         if (newUser.password) {
             newUser.password = generatePassword(newUser.password);
         }

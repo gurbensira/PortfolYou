@@ -32,8 +32,15 @@ router.post("/login", async (req, res) => {
 
 router.get("/", async (req, res) => {
     try {
-        const allUsers = await getAllUsers();
-        res.send(allUsers);
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 20;
+
+        if (page < 1 || limit < 1 || limit > 100) {
+            return res.status(400).send("Invalid pagination parameters");
+        }
+
+        const result = await getAllUsers(page, limit);
+        res.send(result);
     } catch (error) {
         console.error("Error getting all users:", error);
         res.status(500).send(error.message);
@@ -45,15 +52,14 @@ router.get("/:id", optionalAuth, async (req, res) => {
     try {
         const { id } = req.params;
 
-        const loggedInUser = req.user; // Will be null if not authenticated
+        const loggedInUser = req.user;
 
         let user;
 
-        // If user is authenticated AND (viewing own profile OR is admin)
+
         if (loggedInUser && (loggedInUser._id === id || loggedInUser.isAdmin)) {
             user = await getFullUserProfile(id, loggedInUser);
         } else {
-            // Otherwise, return public profile only
             user = await getPublicUserProfile(id);
         }
         res.send(user);
@@ -105,8 +111,8 @@ router.put("/:id", auth, uploadSingle, async (req, res) => {
 
 router.patch("/follow/:id", auth, async (req, res) => {
     try {
-        const { id } = req.params; // User to follow/unfollow
-        const currentUser = req.user; // Authenticated user (from auth middleware)
+        const { id } = req.params;
+        const currentUser = req.user;
 
         const result = await toggleFollowUser(id, currentUser._id);
         res.send(result);

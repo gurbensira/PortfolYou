@@ -25,12 +25,13 @@ export const login = async (user) => {
     }
 };
 
-export const getAllUsers = async () => {
+export const getAllUsers = async (page = 1, limit = 20) => {
     try {
-        const response = await axios.get(baseUrl + "/users");
+        const response = await axios.get(`${baseUrl}/users?page=${page}&limit=${limit}`);
         return response;
     } catch (error) {
         console.log(error);
+        throw error;
     }
 };
 

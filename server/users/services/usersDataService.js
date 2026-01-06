@@ -42,12 +42,29 @@ export const getUserByEmail = async (email) => {
     }
 };
 
-export const getAllUsersFromDb = async () => {
+export const getAllUsersFromDb = async (page = 1, limit = 20) => {
     try {
+        const skip = (page - 1) * limit;
+
         const users = await User.find()
             .populate('following', 'name image profession address')
-            .populate('followers', 'name image profession address');
-        return users;
+            .populate('followers', 'name image profession address')
+            .skip(skip)
+            .limit(limit)
+            .sort({ createdAt: -1 });
+
+        const totalUsers = await User.countDocuments();
+
+        return {
+            users,
+            pagination: {
+                currentPage: page,
+                totalPages: Math.ceil(totalUsers / limit),
+                totalUsers,
+                hasMore: skip + users.length < totalUsers,
+                limit
+            }
+        };
     } catch (error) {
         console.error("Mongo error:", error);
         if (
