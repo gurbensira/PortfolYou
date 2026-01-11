@@ -39,12 +39,12 @@ export const getAllUsers = async (page = 1, limit = 20) => {
 export const getUserById = async (userId) => {
     try {
         const token = getToken()
-        const response = await axios.get(`${baseUrl}/users/${userId}`, {
-            headers: {
-                'x-auth-token': token
-            }
-        });
+
+        const response = await axios.get(`${baseUrl}/users/${userId}`, {headers: {'x-auth-token': token}});
+        
         return response;
+        
+        
     } catch (error) {
         console.log(error);
         throw error;
@@ -54,7 +54,7 @@ export const getUserById = async (userId) => {
 export const toggleFollowUser = async (userId) => {
     try {
         const token = getToken()
-        const response = await axios.patch(`${baseUrl}/users/follow/${userId}`, {}, {
+        const response = await axios.patch(`${baseUrl}/users/${userId}`, {}, {
             headers: {
                 'x-auth-token': token
             }
@@ -65,3 +65,23 @@ export const toggleFollowUser = async (userId) => {
         throw error;
     }
 } 
+
+export const editUserProfile = async (userId, userDetailsForServer) => {
+    try {
+        const token = getToken();
+        const response = await axios.put(
+            `${baseUrl}/users/${userId}`,
+            userDetailsForServer,
+            {
+                headers: {
+                    'x-auth-token': token
+                    // Content-Type will be set automatically for FormData
+                }
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}

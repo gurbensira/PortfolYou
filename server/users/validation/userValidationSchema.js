@@ -84,11 +84,11 @@ export const userUpdateSchema = Joi.object({
         middle: Joi.string().min(2).max(256).allow(""),
         last: Joi.string().min(2).max(256),
     }),
-    profession: Joi.string().min(2).max(256).allow(),
-    email: Joi.string()
+    profession: Joi.string().min(2).max(256).allow(""),
+    email: Joi.string().allow("")
         .ruleset.pattern(
             /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/
-        )
+        ).allow()
         .rule({ message: 'user "email" must be a valid email' }),
     password: Joi.string()
         .min(8)
@@ -99,14 +99,14 @@ export const userUpdateSchema = Joi.object({
         .rule({
             message: 'password must contain at least 1 uppercase letter, 1 lowercase letter, 4 numbers, 1 special character (!@%$#^&*-_), and be at least 8 characters long'
         })
-        .required()
+        .allow()
         .messages({
             'string.min': 'password must be at least 8 characters long',
             'any.required': 'password is required'
         }),
     phone: Joi.string()
         .ruleset.regex(/0[0-9]{1,2}\-?\s?[0-9]{3}\s?[0-9]{4}/)
-        .rule({ message: 'user "phone" must be a valid phone number' }),
+        .allow(""),
     isBusiness: Joi.boolean(),
     isAdmin: Joi.boolean(),
     address: Joi.object().keys({

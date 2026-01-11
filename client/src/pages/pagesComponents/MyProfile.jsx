@@ -5,7 +5,8 @@ import ProjectCard from '../../projectCards/components/ProjectCard';
 import { useNavigate } from 'react-router-dom';
 import { useCurrentUser } from '../../users/providers/UserProvider';
 import { getCardsByUserId } from '../../projectCards/services/projectCardApiService';
-import { getUserById } from '../../users/services/usersApiService';
+import { editUserProfile, getUserById } from '../../users/services/usersApiService';
+import EditProfileForm from '../../users/components/EditProfileForm';
 
 function MyProfile() {
     const { user: currentUser } = useCurrentUser();
@@ -15,6 +16,7 @@ function MyProfile() {
     const [userCards, setUserCards] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showCreateForm, setShowCreateForm] = useState(false);
+    const [showUpdateForm, setShowUpdateForm] = useState(false);
 
     useEffect(() => {
         // If not logged in, redirect to login
@@ -52,6 +54,16 @@ function MyProfile() {
             const cardsResponse = await getCardsByUserId(currentUser._id);
             setUserCards(cardsResponse.data);
             setShowCreateForm(false); // Close the form
+        } catch (error) {
+            console.error('Error refreshing cards:', error);
+        }
+    };
+
+    const handleUserEdit = async () => {
+        try {
+            const updateResponse = await getUserById(currentUser._id);
+            setProfileData(updateResponse.data);
+            setShowUpdateForm(false); // Close the form
         } catch (error) {
             console.error('Error refreshing cards:', error);
         }
@@ -96,12 +108,26 @@ function MyProfile() {
 
                             {/* Edit Profile Button */}
                             <button
-                                onClick={() => navigate('/edit-profile')}
-                                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-                            >
-                                Edit Profile
+                                onClick={() => setShowUpdateForm(!showUpdateForm)}
+                            className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all"
+                        >
+                            {showCreateForm ? 'Cancel' : '+ Edit profile'}
                             </button>
                         </div>
+                        {showUpdateForm && (
+                        <div className="mb-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg p-6 border-2 border-blue-200">
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="text-lg font-semibold text-gray-800">Edit profile</h3>
+                                <button
+                                    onClick={() => setShowUpdateForm(false)}
+                                    className="text-gray-500 hover:text-gray-700 text-2xl font-light"
+                                >
+                                    ×
+                                </button>
+                            </div>
+                            <EditProfileForm onProfileUpdated={handleUserEdit} userId={currentUser._id} />
+                        </div>
+                    )}
 
                         {/* Name */}
                         <h1 className="text-3xl font-bold text-gray-800 mb-2">
@@ -132,7 +158,7 @@ function MyProfile() {
                                     <span className="font-medium text-gray-700">Email:</span>
                                     <span className="ml-2 text-gray-600">{profileData.email}</span>
                                 </div>
-                                {profileData.phone && (
+                                {profileData && (
                                     <div>
                                         <span className="font-medium text-gray-700">Phone:</span>
                                         <span className="ml-2 text-gray-600">{profileData.phone}</span>

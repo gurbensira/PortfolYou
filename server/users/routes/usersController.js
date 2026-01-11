@@ -58,9 +58,12 @@ router.get("/:id", optionalAuth, async (req, res) => {
 
 
         if (loggedInUser && (loggedInUser._id === id || loggedInUser.isAdmin)) {
+
             user = await getFullUserProfile(id, loggedInUser);
+         
         } else {
             user = await getPublicUserProfile(id);
+
         }
         res.send(user);
     } catch (error) {
