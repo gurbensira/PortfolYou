@@ -78,6 +78,72 @@ export const userLoginSchema = Joi.object({
         }),
 });
 
+// Add this new schema for recruiter registration
+export const recruiterRegistrationSchema = Joi.object({
+    name: Joi.object().keys({
+        first: Joi.string().min(2).max(256).required(),
+        middle: Joi.string().min(2).max(256).allow(""),
+        last: Joi.string().min(2).max(256).required(),
+    }).required(),
+    email: Joi.string()
+        .ruleset.pattern(
+            /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/
+        )
+        .rule({ message: 'user "email" must be a valid email' })
+        .required(),
+    password: Joi.string()
+        .min(8)
+        .max(1024)
+        .ruleset.pattern(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@%$#^&*\-_]).{8,}$/
+        )
+        .rule({
+            message: 'password must contain at least 1 uppercase letter, 1 lowercase letter, 4 numbers, 1 special character (!@%$#^&*-_), and be at least 8 characters long'
+        })
+        .required()
+        .messages({
+            'string.min': 'password must be at least 8 characters long',
+            'any.required': 'password is required'
+        }),
+    phone: Joi.string()
+        .ruleset.regex(/0[0-9]{1,2}\-?\s?[0-9]{3}\s?[0-9]{4}/)
+        .rule({ message: 'user "phone" must be a valid phone number' })
+        .required(), // Required for recruiters
+    image: Joi.object()
+        .keys({
+            url: Joi.string()
+                .ruleset.regex(urlRegex)
+                .rule({ message: 'user.image "url" must be a valid url' })
+                .allow(""),
+            alt: Joi.string().min(2).max(256).allow(""),
+        })
+        .allow(),
+    // Recruiter-specific fields
+    recruiterInfo: Joi.object().keys({
+        companyName: Joi.string().min(2).max(256).required(),
+        companyDescription: Joi.string().min(10).max(1024).required(),
+        companyLogo: Joi.string()
+            .ruleset.regex(urlRegex)
+            .rule({ message: 'companyLogo must be a valid url' })
+            .allow(""),
+        industry: Joi.string().min(2).max(256).required(),
+        companySize: Joi.string()
+            .valid('1-10', '11-50', '51-200', '201-500', '501-1000', '1000+', '')
+            .allow(''),
+        companyWebsite: Joi.string()
+            .ruleset.regex(urlRegex)
+            .rule({ message: 'companyWebsite must be a valid url' })
+            .allow(""),
+        jobTitle: Joi.string().min(2).max(256).required(),
+        yearsExperience: Joi.number().min(0).max(50).allow(null),
+        specializations: Joi.array().items(Joi.string()).allow(null),
+        linkedInProfile: Joi.string()
+            .ruleset.regex(urlRegex)
+            .rule({ message: 'linkedInProfile must be a valid url' })
+            .allow(""),
+    }).required(),
+});
+
 export const userUpdateSchema = Joi.object({
     name: Joi.object().keys({
         first: Joi.string().min(2).max(256),

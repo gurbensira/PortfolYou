@@ -32,6 +32,47 @@ export const optionalAuth = (req, res, next) => {
     next();
 };
 
+export const isRecruiter = (req, res, next) => {
+    if (!req.user) {
+        return res.status(401).json({ message: 'Authentication required' });
+    }
+    
+    if (req.user.userType !== 'recruiter') {
+        return res.status(403).json({ message: 'Recruiter access required' });
+    }
+    
+    next();
+};
+
+export const isRecruiterOrAdmin = (req, res, next) => {
+    if (!req.user) {
+        return res.status(401).json({ message: 'Authentication required' });
+    }
+    
+    const isRecruiterUser = req.user.userType === 'recruiter';
+    const isAdminUser = req.user.userType === 'admin' || req.user.isAdmin;
+    
+    if (!isRecruiterUser && !isAdminUser) {
+        return res.status(403).json({ message: 'Recruiter or admin access required' });
+    }
+    
+    next();
+};
+
+export const isAdmin = (req, res, next) => {
+    if (!req.user) {
+        return res.status(401).json({ message: 'Authentication required' });
+    }
+    
+    const isAdminUser = req.user.userType === 'admin' || req.user.isAdmin;
+    
+    if (!isAdminUser) {
+        return res.status(403).json({ message: 'Admin access required' });
+    }
+    
+    next();
+};
+
 
 
 

@@ -9,6 +9,7 @@ export const generateToken = (user) => {
             _id: user._id,
             isBusiness: user.isBusiness,
             isAdmin: user.isAdmin,
+            userType: user.userType
         },
         secretWord,
         { expiresIn: '24h' }
