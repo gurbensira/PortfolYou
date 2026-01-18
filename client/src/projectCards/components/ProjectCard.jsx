@@ -26,7 +26,7 @@ function ProjectCard({ card }) {
                 </p>
 
                 {/* Link */}
-                {card.web && (
+                
                     <div className='flex items-center gap-2 mt-auto'>
                         <span className='text-sm font-semibold text-gray-700'>Link:</span>
 
@@ -38,7 +38,7 @@ function ProjectCard({ card }) {
                             {card.web.replace(/^https?:\/\//, '').replace(/\/$/, '')}
                         </a>
                     </div>
-                )}
+                
 
                 {/* Tags (if your cards have them) */}
                 {card.tags && card.tags.length > 0 && (
@@ -53,7 +53,11 @@ function ProjectCard({ card }) {
                         ))}
                     </div>
                 )}
+                 
             </div>
+            <div className='flex w-full justify-end p-1'>
+           <span className="material-symbols-outlined cursor-pointer hover:bg-gray-200">delete</span>
+           </div>
         </div >
     )
 }
