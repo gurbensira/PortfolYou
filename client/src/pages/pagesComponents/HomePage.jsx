@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getAllUsers } from '../../users/services/usersApiService'
+import { recruiterService } from '../../users/services/recruitersApiService' // ← CHANGE THIS
 import UserCard from '../../users/components/UserCard'
 import { useCurrentUser } from '../../users/providers/UserProvider';
 import LoggedUserHeroSection from '../componentsForPages/LoggedUserHeroSection';
@@ -15,22 +16,42 @@ function HomePage() {
     const [page, setPage] = useState(1);
     const [pagination, setPagination] = useState(null);
 
-
     useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                setLoading(true);
-                const response = await getAllUsers(page, 10);
-                setAllUsers(response.data.data);
-                setUsersToshow(response.data.data);
-                setPagination(response.data.pagination);
-            } catch (err) {
-                setError('Failed to load users');
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        };
+       const fetchUsers = async () => {
+    try {
+        setLoading(true);
+        
+        const [developersResponse, recruitersResponse] = await Promise.all([
+            getAllUsers(page, 10),
+            recruiterService.getAllRecruiters()
+        ]);
+        
+        const developers = developersResponse.data.data;
+        const recruiters = recruitersResponse || [];
+        
+        // Add a userType flag to ensure unique identification
+        const developersWithType = developers.map(user => ({
+            ...user,
+            displayKey: `dev-${user._id}` // ← ADD THIS
+        }));
+        
+        const recruitersWithType = recruiters.map(user => ({
+            ...user,
+            displayKey: `rec-${user._id}` // ← ADD THIS
+        }));
+        
+        const combinedUsers = [...developersWithType, ...recruitersWithType];
+        
+        setAllUsers(combinedUsers);
+        setUsersToshow(combinedUsers);
+        setPagination(developersResponse.data.pagination);
+    } catch (err) {
+        setError('Failed to load users');
+        console.error(err);
+    } finally {
+        setLoading(false);
+    }
+};
 
         fetchUsers();
 
@@ -39,18 +60,38 @@ function HomePage() {
     // Silent refetch when following changes (no loading state)
     useEffect(() => {
         const silentRefetch = async () => {
-            try {
-                const response = await getAllUsers(page, 10);
-                setAllUsers(response.data.data);
+    try {
+        const [developersResponse, recruitersResponse] = await Promise.all([
+            getAllUsers(page, 10),
+            recruiterService.getAllRecruiters()
+        ]);
 
-                if (activeView === 'all') {
-                    setUsersToshow(response.data.data);
-                }
-                setPagination(response.data.pagination);
-            } catch (err) {
-                console.error('Silent refetch failed:', err);
-            }
-        };
+        const developers = developersResponse.data.data;
+        const recruiters = recruitersResponse || [];
+        
+        // Add unique keys here too
+        const developersWithType = developers.map(user => ({
+            ...user,
+            displayKey: `dev-${user._id}`
+        }));
+        
+        const recruitersWithType = recruiters.map(user => ({
+            ...user,
+            displayKey: `rec-${user._id}`
+        }));
+        
+        const combinedUsers = [...developersWithType, ...recruitersWithType];
+
+        setAllUsers(combinedUsers);
+
+        if (activeView === 'all') {
+            setUsersToshow(combinedUsers);
+        }
+        setPagination(developersResponse.data.pagination);
+    } catch (err) {
+        console.error('Silent refetch failed:', err);
+    }
+};
 
         if (currentUser?.following) {
             silentRefetch();
@@ -128,7 +169,7 @@ function HomePage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 justify-items-center">
                 {usersToshow.map((user) => (
-                    <UserCard key={user._id} user={user} />
+                    <UserCard key={user.displayKey || user._id} user={user} /> /* ← CHANGE THIS */
                 ))}
             </div>
 

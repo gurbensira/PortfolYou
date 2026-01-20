@@ -5,6 +5,7 @@ import { validateRecruiterRegistration } from "../validation/userValidationServi
 import User from "../models/User.js";
 
 export const createNewRecruiter = async (recruiter, uploadedFile) => {
+    
     try {
         if (uploadedFile) {
             recruiter.image = {

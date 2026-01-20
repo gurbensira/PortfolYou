@@ -5,6 +5,7 @@ import { useCurrentUser } from '../providers/UserProvider';
 import { useState } from 'react';
 import { toggleFollowUser } from '../services/usersApiService';
 import { useMemo } from 'react';
+import { FaUser, FaBriefcase, FaStar } from 'react-icons/fa';
 
 function UserCard({ user }) {
     const fullName = useMemo(() => {
@@ -51,7 +52,32 @@ function UserCard({ user }) {
     };
 
     return (
+        
         <div className='w-[85%] sm:w-[250px] md:w-[280px] lg:w-[300px] bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden'>
+            <div className="relative">
+  {/* User Type Badge - Top Right Corner */}
+  <div className="absolute top-2 right-2 z-10">
+    {user.userType === 'recruiter' && (
+      <div className="bg-purple-500 text-white rounded-full p-2" title="Recruiter">
+        <FaBriefcase className="text-sm" />
+      </div>
+    )}
+    {(user.userType === 'admin' || user.isAdmin) && (
+      <div className="bg-yellow-500 text-white rounded-full p-2" title="Admin">
+        <FaStar className="text-sm" />
+      </div>
+    )}
+    {user.userType === 'regular' && (
+      <div className="bg-blue-500 text-white rounded-full p-2" title="Developer">
+        <FaUser className="text-sm" />
+      </div>
+    )}
+  </div>
+  
+  {/* Rest of your existing UserCard content */}
+</div>
+
+
             {/* Profile Image Section */}
             <div className="h-32 bg-gradient-to-br from-blue-500 to-purple-600 relative">
                 <div className="absolute -bottom-12 left-1/2 -translate-x-1/2">
@@ -62,6 +88,8 @@ function UserCard({ user }) {
                     />
                 </div>
             </div>
+
+            
 
             {/* User Info Section */}
             <div className="pt-14 px-4 pb-4 text-center">

@@ -1,46 +1,96 @@
-import axios from "axios";
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
+import axios from 'axios';
 
-const getAuthToken = () => {
-    return localStorage.getItem('my token')
-}
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+console.log(API_URL);
 
-export const createJob = async (job) => {
+
+export const jobService = {
+  // POST /api/jobs - Create new job
+  createJob: async (jobData) => {
     try {
-        const token = getAuthToken()
-        const response = await axios.post(`${baseUrl}/jobs`, job, {
-            headers: {
-                'x-auth-token': token
-            }
-        })
-        return response.data
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        `${API_URL}/jobs`,
+        jobData,
+        { headers: { 'x-auth-token': token } }
+      );
+      return response.data;
     } catch (error) {
-        console.error('API Error:', error.response?.data || error.message)
-        throw error
+      throw error.response?.data || error;
     }
-};
+  },
 
-export const getJobByUserId = async (userId) => {
+  // GET /api/jobs - Get all jobs
+  getAllJobs: async () => {
     try {
-        const response = await axios.get(`${baseUrl}/jobs/company/${userId}`);
-        return response.data;
+      const response = await axios.get(`${API_URL}/jobs`);
+      return response.data;
     } catch (error) {
-        console.log(error);
-        throw error;
+      throw error.response?.data || error;
     }
-};
+  },
 
-export const deleteJob = async (jobId) => {
+  // GET /api/jobs/:id - Get single job
+  getJobById: async (id) => {
     try {
-        const token = getAuthToken()
-
-        const response = await axios.delete(`${baseUrl}/jobs/${jobId}`, {
-            headers: {
-                'x-auth-token': token
-            }
-        });
-        return response;
+      const response = await axios.get(`${API_URL}/jobs/${id}`);
+      return response.data;
     } catch (error) {
-        console.log(error);
+      throw error.response?.data || error;
     }
+  },
+
+  // GET /api/jobs/company/:recruiterId - Get jobs by recruiter
+  getJobsByRecruiter: async (recruiterId) => {
+    try {
+      const response = await axios.get(`${API_URL}/jobs/company/${recruiterId}`);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error;
+    }
+  },
+
+  // PUT /api/jobs/:id - Update job
+  updateJob: async (id, data) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.put(
+        `${API_URL}/jobs/${id}`,
+        data,
+        { headers: { 'x-auth-token': token } }
+      );
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error;
+    }
+  },
+
+  // DELETE /api/jobs/:id - Delete job
+  deleteJob: async (id) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.delete(
+        `${API_URL}/jobs/${id}`,
+        { headers: { 'x-auth-token': token } }
+      );
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error;
+    }
+  },
+
+  // PATCH /api/jobs/:id/toggle-active - Toggle job active status
+  toggleJobActive: async (id) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.patch(
+        `${API_URL}/jobs/${id}/toggle-active`,
+        {},
+        { headers: { 'x-auth-token': token } }
+      );
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error;
+    }
+  },
 };

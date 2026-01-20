@@ -4,8 +4,14 @@ const ROUTES = {
     favorite: "/favorite",
     myProfile: "/my-profile",
     register: "/register",
+    registerDev: "/register/developer",
+    registerRecruiter: "/register/recruiter",
+    jobs: "/jobs",
+    jobsDetailPage:"/jobsDetailPage",
+    createJob: "/jobs/create",
     login: "/login",
     userProfile: "/user-profile",
+    recruiterDashboard: "recruiter/dashboard",
     sandbox: "/sandbox"
 };
 export default ROUTES;

@@ -121,7 +121,7 @@ export const recruiterRegistrationSchema = Joi.object({
     // Recruiter-specific fields
     recruiterInfo: Joi.object().keys({
         companyName: Joi.string().min(2).max(256).required(),
-        companyDescription: Joi.string().min(10).max(1024).required(),
+        companyDescription: Joi.string().min(2).max(1024).required(),
         companyLogo: Joi.string()
             .ruleset.regex(urlRegex)
             .rule({ message: 'companyLogo must be a valid url' })

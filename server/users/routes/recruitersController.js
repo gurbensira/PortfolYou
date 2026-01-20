@@ -16,6 +16,8 @@ router.post("/", uploadSingle, async (req, res) => {
         const recruiterData = req.body;
         const uploadedFile = req.file;
         const recruiter = await createNewRecruiter(recruiterData, uploadedFile);
+        
+        
         res.status(201).send(recruiter);
     } catch (error) {
         console.error("Recruiter registration error:", error);

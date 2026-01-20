@@ -19,12 +19,14 @@ function Header() {
             ...(user ? [
                 { to: ROUTES.favorite, label: "Favorite" },
                 { to: ROUTES.myProfile, label: "My profile" },
+                { to: ROUTES.jobs, label: "Jobs" },
             ] : []),
             { to: ROUTES.about, label: "About" },
         ],
         right: user ? [
 
             { to: ROUTES.sandbox, label: "SandBox" },
+            (user?.userType === "recruiter" && { to: ROUTES.recruiterDashboard, label: "dashboard" })
         ] : [
 
             { to: ROUTES.login, label: "Login" },
