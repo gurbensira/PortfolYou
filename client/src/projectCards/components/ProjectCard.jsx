@@ -1,7 +1,78 @@
 // ProjectCard.jsx
-import React from 'react'
+import React, { useState } from 'react';
+import { deleteCard } from '../services/projectCardApiService';
+import { useCurrentUser } from '../../users/providers/UserProvider';
+import EditProjectCardForm from './EditProjectCardForm';
 
-function ProjectCard({ card }) {
+function ProjectCard({ card, onCardDeleted, onCardUpdated, isOwner = false }) {
+    const { user: currentUser } = useCurrentUser();
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+
+    // Check if current user owns this card
+    const canModify = isOwner || (currentUser && card.user_id === currentUser._id);
+
+    const handleDelete = async () => {
+        // Double-check ownership
+        if (!canModify) {
+            alert("You don't have permission to delete this project");
+            return;
+        }
+
+        // Confirm deletion
+        const confirmDelete = window.confirm(
+            `Are you sure you want to delete "${card.title}"? This action cannot be undone.`
+        );
+
+        if (!confirmDelete) return;
+
+        try {
+            setIsDeleting(true);
+            await deleteCard(card._id);
+            
+            // Call the callback to refresh the cards list
+            if (onCardDeleted) {
+                onCardDeleted(card._id);
+            }
+            
+            alert('Project deleted successfully');
+        } catch (error) {
+            console.error('Error deleting project:', error);
+            alert(error.response?.data || 'Failed to delete project. Please try again.');
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
+    const handleEdit = () => {
+        setIsEditing(true);
+    };
+
+    const handleCancelEdit = () => {
+        setIsEditing(false);
+    };
+
+    const handleCardUpdated = () => {
+        setIsEditing(false);
+        if (onCardUpdated) {
+            onCardUpdated();
+        }
+    };
+
+    // If editing, show the edit form instead of the card
+    if (isEditing) {
+        return (
+            <div className='w-full'>
+                <EditProjectCardForm 
+                    card={card}
+                    onCardUpdated={handleCardUpdated}
+                    onCancel={handleCancelEdit}
+                />
+            </div>
+        );
+    }
+
+    // Normal card view
     return (
         <div className='w-full bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200'>
             {/* Project Image */}
@@ -26,11 +97,11 @@ function ProjectCard({ card }) {
                 </p>
 
                 {/* Link */}
-                
+                {card.web && (
                     <div className='flex items-center gap-2 mt-auto'>
                         <span className='text-sm font-semibold text-gray-700'>Link:</span>
-
-                        <a href={card.web}
+                        <a 
+                            href={card.web}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-sm text-blue-600 hover:text-blue-800 underline truncate"
@@ -38,7 +109,7 @@ function ProjectCard({ card }) {
                             {card.web.replace(/^https?:\/\//, '').replace(/\/$/, '')}
                         </a>
                     </div>
-                
+                )}
 
                 {/* Tags (if your cards have them) */}
                 {card.tags && card.tags.length > 0 && (
@@ -53,14 +124,59 @@ function ProjectCard({ card }) {
                         ))}
                     </div>
                 )}
-                 
             </div>
-            <div className='flex w-full justify-end p-1'>
-           <span className="material-symbols-outlined cursor-pointer hover:bg-gray-200">delete</span>
-           </div>
-        </div >
-    )
+
+            {/* Action Buttons - Only show if user owns the card */}
+            <div className='flex w-full justify-end p-3 gap-2 border-t border-gray-100'>
+                {canModify ? (
+                    <>
+                        {/* Edit Button */}
+                        <button
+                            onClick={handleEdit}
+                            className="flex items-center gap-1 px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                            title="Edit project"
+                        >
+                           
+                            <span>Edit</span>
+                        </button>
+
+                        {/* Delete Button */}
+                        <button
+                            onClick={handleDelete}
+                            disabled={isDeleting}
+                            className={`flex items-center gap-1 px-3 py-1.5 text-sm rounded-md transition-colors ${
+                                isDeleting
+                                    ? 'text-gray-400 bg-gray-100 cursor-not-allowed'
+                                    : 'text-red-600 hover:bg-red-50'
+                            }`}
+                            title={isDeleting ? 'Deleting...' : 'Delete project'}
+                        >
+                            <span className="material-symbols-outlined text-lg">delete</span>
+                            <span>{isDeleting ? 'Deleting...' : 'Delete'}</span>
+                        </button>
+                    </>
+                ) : (
+                    // Show disabled buttons for non-owners
+                    <>
+                    <button
+                        disabled
+                        className="flex items-center gap-1 px-3 py-1.5 text-sm text-gray-300 bg-gray-50 rounded-md cursor-not-allowed"
+                        title="You don't own this project"
+                    >
+                        <span>Edit</span>
+                    </button>
+                    <button
+                        className="flex items-center gap-1 px-3 py-1.5 text-sm text-gray-300 bg-gray-50 rounded-md cursor-not-allowed"
+                        title="You don't own this project"
+                    >
+                         <span className="material-symbols-outlined text-lg">delete</span>
+                    </button>
+                    </>
+                )}
+            </div>
+        </div>
+    );
 }
 
-export default ProjectCard
+export default ProjectCard;
 

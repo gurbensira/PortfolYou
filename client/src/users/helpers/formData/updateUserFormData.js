@@ -45,11 +45,27 @@ const updateUserFormData = (userDetails) => {
     if (userDetails.address?.street?.trim()) {
         formData.append('address[street]', userDetails.address.street.trim());
     }
-    if (userDetails.address?.houseNumber?.trim()) {
-        formData.append('address[houseNumber]', userDetails.address.houseNumber.trim());
+    
+    // House Number - handle as number or string
+    if (userDetails.address?.houseNumber) {
+        const houseNum = typeof userDetails.address.houseNumber === 'string' 
+            ? userDetails.address.houseNumber.trim() 
+            : String(userDetails.address.houseNumber);
+        
+        if (houseNum) {
+            formData.append('address[houseNumber]', houseNum);
+        }
     }
-    if (userDetails.address?.zip?.trim()) {
-        formData.append('address[zip]', userDetails.address.zip.trim());
+    
+    // ZIP - handle as number or string
+    if (userDetails.address?.zip) {
+        const zipCode = typeof userDetails.address.zip === 'string' 
+            ? userDetails.address.zip.trim() 
+            : String(userDetails.address.zip);
+        
+        if (zipCode) {
+            formData.append('address[zip]', zipCode);
+        }
     }
 
     // isBusiness - only append if explicitly set

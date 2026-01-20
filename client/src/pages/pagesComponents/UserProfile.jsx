@@ -1,3 +1,4 @@
+// UserProfile.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getUserById } from '../../users/services/usersApiService';
@@ -9,7 +10,7 @@ function UserProfile() {
     const navigate = useNavigate();
 
     const [profileUser, setProfileUser] = useState(null);
-    const [userCards, setUserCards] = useState([]); // Add state for cards
+    const [userCards, setUserCards] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -144,13 +145,18 @@ function UserProfile() {
                     {userCards.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {userCards.map((card) => (
-                                <ProjectCard key={card._id} card={card} />
+                                <ProjectCard 
+                                    key={card._id} 
+                                    card={card} 
+                                    isOwner={false}
+                                    // No onCardDeleted callback since user can't delete
+                                />
                             ))}
                         </div>
                     ) : (
                         // Empty state
                         <div className="text-center py-16">
-                            <div className="text-gray-300 text-6xl mb-4">📁</div>
+                            <div className="text-gray-300 text-6xl mb-4">📂</div>
                             <p className="text-gray-500 text-lg font-medium">
                                 No projects yet
                             </p>

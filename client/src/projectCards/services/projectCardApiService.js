@@ -30,3 +30,34 @@ export const getCardsByUserId = async (userId) => {
         throw error;
     }
 };
+
+export const deleteCard = async (cardId) => {
+    try {
+        const token = getAuthToken();
+        const response = await axios.delete(`${baseUrl}/projectCards/${cardId}`, {
+            headers: {
+                'x-auth-token': token
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('API Error:', error.response?.data || error.message);
+        throw error;
+    }
+};
+
+export const updateCard = async (cardId, formData) => {
+    try {
+        const token = getAuthToken();
+        const response = await axios.put(`${baseUrl}/projectCards/${cardId}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'x-auth-token': token
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('API Error:', error.response?.data || error.message);
+        throw error;
+    }
+};
