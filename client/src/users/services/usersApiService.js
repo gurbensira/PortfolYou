@@ -54,7 +54,7 @@ export const getUserById = async (userId) => {
 export const toggleFollowUser = async (userId) => {
     try {
         const token = getToken()
-        const response = await axios.patch(`${baseUrl}/users/${userId}`, {}, {
+        const response = await axios.patch(`${baseUrl}/users/follow/${userId}`, {}, {
             headers: {
                 'x-auth-token': token
             }

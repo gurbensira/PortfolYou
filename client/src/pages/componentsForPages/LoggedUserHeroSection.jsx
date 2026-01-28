@@ -1,9 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import ROUTES from '../../routes/routesDict';
 
 function LoggedUserHeroSection({ user }) {
     const navigate = useNavigate();
+
+    // ← ADD: Safety check
+    if (!user) {
+        return null;
+    }
 
     const timeOfDay = new Date().getHours();
     const greeting = timeOfDay < 12 ? 'Good morning' : timeOfDay < 18 ? 'Good afternoon' : 'Good evening';
@@ -13,12 +18,11 @@ function LoggedUserHeroSection({ user }) {
 
     return (
         <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-lg overflow-hidden mb-12 relative">
-
             <div className="px-8 py-12 md:py-16 text-white">
                 {/* Header */}
                 <div className="text-center mb-8">
                     <h1 className="text-3xl md:text-5xl font-bold mb-3">
-                        {greeting}, {user.name.first}!
+                        {greeting}, {user.name?.first || 'there'}!
                     </h1>
                     <p className="text-lg md:text-xl text-blue-100">
                         {followingCount > 0
