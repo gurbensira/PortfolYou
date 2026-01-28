@@ -5,6 +5,7 @@ import createUserFormData from '../helpers/formData/createUserFormData';
 import { useNavigate } from "react-router-dom";
 import { useCurrentUser } from '../providers/UserProvider';
 import { getUser, setTokenInLocalStorage } from '../services/localStorageService';
+import {useSnackbar} from '../../providers/SnackbarProvider'
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@%$#^&*\-_]).{8,}$/;
 
@@ -12,6 +13,7 @@ function RegisterForm() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { setToken, setUser } = useCurrentUser();
     const navigate = useNavigate();
+    const { success, error } = useSnackbar();
 
     const onSubmit = async (data) => {
         try {
@@ -28,11 +30,12 @@ function RegisterForm() {
             setTokenInLocalStorage(loginResponse.data);
             setToken(loginResponse.data);
             setUser(getUser());
-
+success('Account created successfully! Welcome to PortfolYou!');
             navigate('/');
 
         } catch (error) {
             console.error('Registration failed:', error);
+            error(err.response?.data || 'Registration failed. Please try again.');
             alert(error.response?.data);
         }
     };

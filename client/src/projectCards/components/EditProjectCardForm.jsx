@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { updateCard } from '../services/projectCardApiService';
 import createCardFormData from '../helpers/formData/createCardFormData';
+import { useSnackbar } from '../../providers/SnackbarProvider';
 
 function EditProjectCardForm({ card, onCardUpdated, onCancel }) {
     const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm();
@@ -55,6 +56,7 @@ function EditProjectCardForm({ card, onCardUpdated, onCancel }) {
 
             const response = await updateCard(card._id, formData);
             console.log('Card updated successfully:', response);
+            success('Project card updated successfully!');
 
             // Call the callback to refresh the cards list
             if (onCardUpdated) {
@@ -63,7 +65,7 @@ function EditProjectCardForm({ card, onCardUpdated, onCancel }) {
 
         } catch (error) {
             console.error('Card update failed:', error);
-            alert(error.response?.data || 'Failed to update card. Please try again.');
+            error(err.response?.data || 'Failed to update project card.'); 
         } finally {
             setIsSubmitting(false);
         }

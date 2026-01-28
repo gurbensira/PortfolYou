@@ -4,11 +4,13 @@ import { useCurrentUser } from '../providers/UserProvider';
 import { getUser, setTokenInLocalStorage } from '../services/localStorageService';
 import { login } from '../services/usersApiService';
 import { useNavigate } from 'react-router-dom';
+import {useSnackbar} from '../../providers/SnackbarProvider'
 
 function LoginForm() {
     const { setToken, setUser } = useCurrentUser();
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors }, setError } = useForm();
+    const { success, error } = useSnackbar();
 
     const onSubmit = async (user) => {
         try {
@@ -16,9 +18,11 @@ function LoginForm() {
             setTokenInLocalStorage(response.data);
             setToken(response.data);
             setUser(getUser());
+            success('Welcome back!');
             navigate('/');
         } catch (error) {
             console.error('Login error:', error);
+            error('Login failed. Please check your credentials.');
             // Set form-level error
             setError('root', {
                 type: 'manual',

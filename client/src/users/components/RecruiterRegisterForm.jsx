@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {recruiterService} from '../services/recruitersApiService'
+import { useSnackbar } from '../../providers/SnackbarProvider';
 
 
 function RecruiterRegisterForm() {
@@ -10,6 +11,7 @@ function RecruiterRegisterForm() {
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState(null);
   const navigate = useNavigate();
+  const { success, error: showError } = useSnackbar();
   
   const password = watch('password');
 
@@ -55,12 +57,14 @@ function RecruiterRegisterForm() {
       
 
       await recruiterService.registerRecruiter(recruiterData, imageFile);
+      success('Recruiter account created! Please login to continue.');
       navigate('/login', { 
         state: { message: 'Registration successful! Please login.' } 
       });
       
     } catch (err) {
       setError(err.message || 'Registration failed. Please try again.');
+      showError(err.message);
     } finally {
       setLoading(false);
     }

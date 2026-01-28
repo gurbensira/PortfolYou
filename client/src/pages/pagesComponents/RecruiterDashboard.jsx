@@ -4,12 +4,14 @@ import { Link, Navigate } from 'react-router-dom';
 import { useCurrentUser } from '../../users/providers/UserProvider';
 import { jobService } from '../../jobs/services/jobsApiService';
 import JobCard from '../../jobs/components/JobCard';
+import { useSnackbar } from '../../providers/SnackbarProvider'
 
 function RecruiterDashboard() {
   const { user } = useCurrentUser();
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({ total: 0, active: 0, totalViews: 0 });
+  const { success, error } = useSnackbar();
 
   useEffect(() => {
     if (user?._id) {
@@ -29,6 +31,7 @@ function RecruiterDashboard() {
       
     } catch (error) {
       console.error('Error loading jobs:', error);
+      error('Failed to load your jobs');
     } finally {
       setLoading(false);
     }
@@ -39,20 +42,23 @@ function RecruiterDashboard() {
     
     try {
       await jobService.deleteJob(jobId);
+      success('Job deleted successfully');
       loadMyJobs();
     } catch (error) {
       console.error('Error deleting job:', error);
-      alert('Failed to delete job');
+      error('Failed to delete job');
+      
     }
   };
 
   const handleToggleActive = async (jobId) => {
     try {
       await jobService.toggleJobActive(jobId);
+      success('Job status updated');
       loadMyJobs();
     } catch (error) {
       console.error('Error toggling job status:', error);
-      alert('Failed to update job status');
+      error('Failed to update job status');
     }
   };
 

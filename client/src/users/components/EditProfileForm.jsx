@@ -5,12 +5,14 @@ import updateUserFormData from '../helpers/formData/updateUserFormData';
 import normalizeUserDataForForm from '../helpers/formData/normalizeUserDataForForm';
 import { useNavigate } from 'react-router-dom';
 import { editUserProfile, getUserById } from '../services/usersApiService';
+import { useSnackbar } from '../../providers/SnackbarProvider'; // ← ADD
 
 function EditProfileForm({userId, onProfileUpdated }) {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const { success, error } = useSnackbar();
 
     // Load existing user data when component mounts
     useEffect(() => {
@@ -26,6 +28,7 @@ function EditProfileForm({userId, onProfileUpdated }) {
                 
             } catch (error) {
                 console.error('Error loading user data:', error);
+                error('Failed to load profile data');
             } finally {
                 setIsLoading(false);
             }
@@ -34,7 +37,7 @@ function EditProfileForm({userId, onProfileUpdated }) {
         if (userId) {
             loadUserData();
         }
-    }, [userId, reset]);
+    }, [userId, reset, error]);
 
     const onSubmit = async (data) => {
         try {
@@ -44,6 +47,7 @@ function EditProfileForm({userId, onProfileUpdated }) {
             const formData = updateUserFormData(data);
             const response = await editUserProfile(userId, formData);
             console.log('Profile updated successfully:', response);
+            success('Profile updated successfully!');
 
             // If callback provided (used in MyProfile), call it
             if (onProfileUpdated) {
@@ -52,7 +56,7 @@ function EditProfileForm({userId, onProfileUpdated }) {
 
         } catch (error) {
             console.error('Profile update failed:', error);
-            alert('Failed to update profile. Please try again.');
+            error('Failed to update profile. Please try again.');
         } finally {
             setIsSubmitting(false);
         }

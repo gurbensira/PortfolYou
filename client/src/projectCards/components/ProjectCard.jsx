@@ -1,13 +1,15 @@
-// ProjectCard.jsx
+
 import React, { useState } from 'react';
 import { deleteCard } from '../services/projectCardApiService';
 import { useCurrentUser } from '../../users/providers/UserProvider';
 import EditProjectCardForm from './EditProjectCardForm';
+import { useSnackbar } from '../../providers/SnackbarProvider';
 
 function ProjectCard({ card, onCardDeleted, onCardUpdated, isOwner = false }) {
     const { user: currentUser } = useCurrentUser();
     const [isDeleting, setIsDeleting] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const { success, error, warning } = useSnackbar();
 
     // Check if current user owns this card
     const canModify = isOwner || (currentUser && card.user_id === currentUser._id);
@@ -15,7 +17,7 @@ function ProjectCard({ card, onCardDeleted, onCardUpdated, isOwner = false }) {
     const handleDelete = async () => {
         // Double-check ownership
         if (!canModify) {
-            alert("You don't have permission to delete this project");
+            warning("You don't have permission to delete this project");
             return;
         }
 
@@ -29,16 +31,16 @@ function ProjectCard({ card, onCardDeleted, onCardUpdated, isOwner = false }) {
         try {
             setIsDeleting(true);
             await deleteCard(card._id);
+            success('Project deleted successfully');
             
             // Call the callback to refresh the cards list
             if (onCardDeleted) {
                 onCardDeleted(card._id);
             }
             
-            alert('Project deleted successfully');
         } catch (error) {
             console.error('Error deleting project:', error);
-            alert(error.response?.data || 'Failed to delete project. Please try again.');
+            error(err.response?.data || 'Failed to delete project.');
         } finally {
             setIsDeleting(false);
         }

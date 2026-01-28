@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom';
 
 import { jobService } from '../../jobs/services/jobsApiService';
 import JobForm from '../../jobs/components/JobForm';
+import {useSnackbar} from '../../providers/SnackbarProvider'
 
 
 function CreateJobPage() {
-  const [error, setError] = useState('');
+ 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { success, error } = useSnackbar();
 
   const handleSubmit = async (data) => {
     setLoading(true);
@@ -24,9 +26,10 @@ function CreateJobPage() {
       };
 
       await jobService.createJob(jobData);
+      success('Job posted successfully!');
       navigate('/recruiter/dashboard');
     } catch (err) {
-      setError(err.message || 'Failed to create job');
+      error('Failed to post job. Please try again.');
     } finally {
       setLoading(false);
     }

@@ -4,11 +4,13 @@ import { useForm } from 'react-hook-form';
 import createCardFormData from '../helpers/formData/createCardFormData';
 import { useNavigate } from 'react-router-dom';
 import { createCard } from '../services/projectCardApiService';
+import {useSnackbar } from '../../providers/SnackbarProvider'
 
 function CreateProjectCardForm({ onCardCreated }) {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const { success, error } = useSnackbar();
 
     const onSubmit = async (data) => {
         try {
@@ -16,8 +18,8 @@ function CreateProjectCardForm({ onCardCreated }) {
             const formData = createCardFormData(data);
             const response = await createCard(formData);
             console.log('Card created successfully:', response);
-
-            // Reset the form
+            
+            success('Project card created successfully!');
             reset();
 
             // If callback provided (used in MyProfile), call it
@@ -30,7 +32,7 @@ function CreateProjectCardForm({ onCardCreated }) {
 
         } catch (error) {
             console.error('Card creation failed:', error);
-            alert('Failed to create card. Please try again.');
+            error('Failed to create project card. Please try again.');
         } finally {
             setIsSubmitting(false);
         }
