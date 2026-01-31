@@ -33,7 +33,7 @@ const userRegistrationSchema = Joi.object({
     phone: Joi.string()
         .ruleset.regex(/0[0-9]{1,2}\-?\s?[0-9]{3}\s?[0-9]{4}/)
         .rule({ message: 'user "phone" must be a valid phone number' })
-        .allow(), //change to: .required() after finishing the client form
+        .allow(), 
     isBusiness: Joi.boolean(),
     isAdmin: Joi.boolean(),
     address: Joi.object().keys({
@@ -43,7 +43,7 @@ const userRegistrationSchema = Joi.object({
         street: Joi.string().min(2).max(256),
         houseNumber: Joi.number(),
         zip: Joi.number(),
-    }).allow(), //change to: .required() after finishing the client form
+    }).allow(), 
     image: Joi.object()
         .keys({
             url: Joi.string()
@@ -52,7 +52,7 @@ const userRegistrationSchema = Joi.object({
                 .allow(""),
             alt: Joi.string().min(2).max(256).allow(""),
         })
-        .allow(), //change to: .required() after finishing the client form
+        .allow(), 
 });
 
 export const userLoginSchema = Joi.object({
@@ -78,7 +78,7 @@ export const userLoginSchema = Joi.object({
         }),
 });
 
-// Add this new schema for recruiter registration
+
 export const recruiterRegistrationSchema = Joi.object({
     name: Joi.object().keys({
         first: Joi.string().min(2).max(256).required(),
@@ -108,7 +108,7 @@ export const recruiterRegistrationSchema = Joi.object({
     phone: Joi.string()
         .ruleset.regex(/0[0-9]{1,2}\-?\s?[0-9]{3}\s?[0-9]{4}/)
         .rule({ message: 'user "phone" must be a valid phone number' })
-        .required(), // Required for recruiters
+        .required(), 
     image: Joi.object()
         .keys({
             url: Joi.string()
@@ -118,7 +118,7 @@ export const recruiterRegistrationSchema = Joi.object({
             alt: Joi.string().min(2).max(256).allow(""),
         })
         .allow(),
-    // Recruiter-specific fields
+    
     recruiterInfo: Joi.object().keys({
         companyName: Joi.string().min(2).max(256).required(),
         companyDescription: Joi.string().min(2).max(1024).required(),

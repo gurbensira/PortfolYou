@@ -5,7 +5,6 @@ import ROUTES from '../../routes/routesDict';
 function LoggedUserHeroSection({ user }) {
     const navigate = useNavigate();
 
-    // ← ADD: Safety check
     if (!user) {
         return null;
     }
@@ -19,7 +18,7 @@ function LoggedUserHeroSection({ user }) {
     return (
         <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-lg overflow-hidden mb-12 relative">
             <div className="px-8 py-12 md:py-16 text-white">
-                {/* Header */}
+              
                 <div className="text-center mb-8">
                     <h1 className="text-3xl md:text-5xl font-bold mb-3">
                         {greeting}, {user.name?.first || 'there'}!
@@ -31,7 +30,7 @@ function LoggedUserHeroSection({ user }) {
                     </p>
                 </div>
 
-                {/* Stats */}
+              
                 <div className="flex justify-center gap-8 md:gap-16 mb-8 flex-wrap">
                     <div className="text-center">
                         <p className="text-2xl md:text-3xl font-bold">{followingCount}</p>
@@ -43,7 +42,7 @@ function LoggedUserHeroSection({ user }) {
                     </div>
                 </div>
 
-                {/* Actions */}
+                
                 <div className="flex gap-3 md:gap-4 justify-center flex-wrap">
                     <button
                         onClick={() => navigate(ROUTES.myProfile)}

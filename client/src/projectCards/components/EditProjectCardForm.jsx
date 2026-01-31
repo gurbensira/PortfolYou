@@ -1,4 +1,4 @@
-// EditProjectCardForm.jsx
+
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { updateCard } from '../services/projectCardApiService';
@@ -11,7 +11,7 @@ function EditProjectCardForm({ card, onCardUpdated, onCancel }) {
     const [imagePreview, setImagePreview] = useState(card.image?.url || '');
     const [keepExistingImage, setKeepExistingImage] = useState(true);
 
-    // Pre-fill form with existing card data
+  
     useEffect(() => {
         if (card) {
             setValue('title', card.title || '');
@@ -37,19 +37,19 @@ function EditProjectCardForm({ card, onCardUpdated, onCancel }) {
         try {
             setIsSubmitting(true);
             
-            // Create FormData for the update
+            
             const formData = new FormData();
             formData.append('title', data.title);
             formData.append('description', data.description);
             formData.append('web', data.web || '');
             
-            // Handle image
+            
             if (data.image && data.image[0]) {
-                // New image uploaded
+                
                 formData.append('image', data.image[0]);
                 formData.append('image[alt]', data.imageAlt || data.title);
             } else if (keepExistingImage) {
-                // Keep existing image
+                
                 formData.append('image[url]', card.image?.url || '');
                 formData.append('image[alt]', data.imageAlt || card.image?.alt || '');
             }
@@ -58,7 +58,7 @@ function EditProjectCardForm({ card, onCardUpdated, onCancel }) {
             console.log('Card updated successfully:', response);
             success('Project card updated successfully!');
 
-            // Call the callback to refresh the cards list
+            
             if (onCardUpdated) {
                 onCardUpdated();
             }
@@ -123,7 +123,7 @@ function EditProjectCardForm({ card, onCardUpdated, onCancel }) {
             <div className='w-full'>
                 <label className='block text-sm font-medium mb-2 text-gray-700'>Project Image</label>
                 
-                {/* Current Image Preview */}
+                
                 {imagePreview && (
                     <div className='mb-3 relative'>
                         <img 

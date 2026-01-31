@@ -13,7 +13,7 @@ function RegisterPage() {
         </p>
 
         <div className="grid md:grid-cols-2 gap-6">
-          {/* Developer Card */}
+          
           <Link
             to="/register/developer"
             className="group p-8 border-2 border-blue-400 rounded-xl hover:border-blue-600 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
@@ -31,7 +31,7 @@ function RegisterPage() {
             </div>
           </Link>
 
-          {/* Recruiter Card */}
+          
           <Link
             to="/register/recruiter"
             className="group p-8 border-2 border-purple-400 rounded-xl hover:border-purple-600 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"

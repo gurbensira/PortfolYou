@@ -1,4 +1,4 @@
-// CreateProjectCardForm.jsx
+
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import createCardFormData from '../helpers/formData/createCardFormData';
@@ -22,11 +22,11 @@ function CreateProjectCardForm({ onCardCreated }) {
             success('Project card created successfully!');
             reset();
 
-            // If callback provided (used in MyProfile), call it
+          
             if (onCardCreated) {
                 onCardCreated();
             } else {
-                // If no callback (standalone usage), navigate home
+            
                 navigate('/');
             }
 

@@ -5,7 +5,7 @@ console.log(API_URL);
 
 
 export const jobService = {
-  // POST /api/jobs - Create new job
+ 
   createJob: async (jobData) => {
     try {
       const token = localStorage.getItem('token');
@@ -20,7 +20,7 @@ export const jobService = {
     }
   },
 
-  // GET /api/jobs - Get all jobs
+  
   getAllJobs: async () => {
     try {
       const response = await axios.get(`${API_URL}/jobs`);
@@ -30,7 +30,7 @@ export const jobService = {
     }
   },
 
-  // GET /api/jobs/:id - Get single job
+ 
   getJobById: async (id) => {
     try {
       const response = await axios.get(`${API_URL}/jobs/${id}`);
@@ -40,7 +40,7 @@ export const jobService = {
     }
   },
 
-  // GET /api/jobs/company/:recruiterId - Get jobs by recruiter
+  
   getJobsByRecruiter: async (recruiterId) => {
     try {
       const response = await axios.get(`${API_URL}/jobs/company/${recruiterId}`);
@@ -50,7 +50,7 @@ export const jobService = {
     }
   },
 
-  // PUT /api/jobs/:id - Update job
+
   updateJob: async (id, data) => {
     try {
       const token = localStorage.getItem('token');
@@ -65,7 +65,7 @@ export const jobService = {
     }
   },
 
-  // DELETE /api/jobs/:id - Delete job
+  
   deleteJob: async (id) => {
     try {
       const token = localStorage.getItem('token');
@@ -79,7 +79,7 @@ export const jobService = {
     }
   },
 
-  // PATCH /api/jobs/:id/toggle-active - Toggle job active status
+  
   toggleJobActive: async (id) => {
     try {
       const token = localStorage.getItem('token');

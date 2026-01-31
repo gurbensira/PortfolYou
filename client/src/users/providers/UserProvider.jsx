@@ -44,7 +44,7 @@ export default function UserProvider({ children }) {
             setUser,
             token,
             setToken,
-            refetchUser: fetchFullUser // Expose refetch function
+            refetchUser: fetchFullUser 
         }}>
             {children}
         </UserContext.Provider>

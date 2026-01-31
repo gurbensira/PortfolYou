@@ -1,6 +1,6 @@
 export const DEFAULT_VALIDATION = {
   type: String,
-  required: false, //change to: true after finishing the form
+  required: false, 
   minLength: 2,
   maxLength: 256,
   trim: true,

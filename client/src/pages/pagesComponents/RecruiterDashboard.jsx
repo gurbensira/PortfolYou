@@ -24,7 +24,7 @@ function RecruiterDashboard() {
       const data = await jobService.getJobsByRecruiter(user._id);
       setJobs(data);
       
-      // Calculate stats
+     
       const active = data.filter(j => j.isActive).length;
       const totalViews = data.reduce((sum, j) => sum + (j.views || 0), 0);
       setStats({ total: data.length, active, totalViews });
@@ -63,7 +63,7 @@ function RecruiterDashboard() {
   };
 
   const handleEdit = (job) => {
-    // Navigate to edit page (you'll need to create this)
+    
     window.location.href = `/jobs/${job._id}/edit`;
   };
 
@@ -87,7 +87,7 @@ function RecruiterDashboard() {
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        {/* Stats */}
+      
         <div className="grid md:grid-cols-3 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
             <h3 className="text-gray-600 text-sm font-semibold mb-1">Total Jobs</h3>
@@ -103,7 +103,7 @@ function RecruiterDashboard() {
           </div>
         </div>
 
-        {/* Actions */}
+      
         <div className="mb-6 flex gap-4">
           <Link
             to="/jobs/create"
@@ -119,7 +119,7 @@ function RecruiterDashboard() {
           </Link>
         </div>
 
-        {/* My Jobs */}
+       
         <div>
           <h2 className="text-2xl font-bold mb-4">My Job Postings</h2>
           

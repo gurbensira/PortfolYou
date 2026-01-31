@@ -46,11 +46,10 @@ router.get("/my-cards", auth, async (req, res) => {
     }
 });
 
-// NEW ROUTE - Get cards by user ID (public, uses service layer)
 router.get("/users/:userId", async (req, res) => {
     try {
         const { userId } = req.params;
-        const userCards = await getUserCards(userId); // Uses service layer
+        const userCards = await getUserCards(userId); 
         res.send(userCards);
     } catch (error) {
         console.error("Error getting user cards:", error);

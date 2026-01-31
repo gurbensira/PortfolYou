@@ -27,18 +27,7 @@ function Footer() {
                         >
                             Contact
                         </Link>
-                        {/* <a
-                            href='#'
-                            className='text-gray-600 hover:text-gray-900 transition-colors'
-                        >
-                            Privacy
-                        </a> */}
-                        {/* <a
-                            href='#'
-                            className='text-gray-600 hover:text-gray-900 transition-colors'
-                        >
-                            Terms
-                        </a> */}
+                        
                     </div>
                 </div>
             </div>

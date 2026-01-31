@@ -1,7 +1,7 @@
 const ROUTES = {
     root: "/",
     about: "/about",
-    favorite: "/favorite",
+    
     myProfile: "/my-profile",
     register: "/register",
     registerDev: "/register/developer",

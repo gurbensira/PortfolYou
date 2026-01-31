@@ -1,7 +1,7 @@
 const updateUserFormData = (userDetails) => {
     const formData = new FormData();
 
-    // Name fields - only append if they have values
+
     if (userDetails.name?.first?.trim()) {
         formData.append('name[first]', userDetails.name.first.trim());
     }
@@ -12,27 +12,27 @@ const updateUserFormData = (userDetails) => {
         formData.append('name[last]', userDetails.name.last.trim());
     }
 
-    // Profession - only append if it has a value
+    
     if (userDetails.profession?.trim()) {
         formData.append('profession', userDetails.profession.trim());
     }
 
-    // Phone - only append if it has a value
+ 
     if (userDetails.phone?.trim()) {
         formData.append('phone', userDetails.phone.trim());
     }
 
-    // Image alt text - only append if it has a value
+    
     if (userDetails.imageAlt?.trim()) {
         formData.append('image[alt]', userDetails.imageAlt.trim());
     }
 
-    // Image file - only append if a file was selected
+    
     if (userDetails.image && userDetails.image[0]) {
         formData.append('image', userDetails.image[0]);
     }
 
-    // Address fields - only append if they have values
+  
     if (userDetails.address?.state?.trim()) {
         formData.append('address[state]', userDetails.address.state.trim());
     }
@@ -46,7 +46,7 @@ const updateUserFormData = (userDetails) => {
         formData.append('address[street]', userDetails.address.street.trim());
     }
     
-    // House Number - handle as number or string
+    
     if (userDetails.address?.houseNumber) {
         const houseNum = typeof userDetails.address.houseNumber === 'string' 
             ? userDetails.address.houseNumber.trim() 
@@ -57,7 +57,7 @@ const updateUserFormData = (userDetails) => {
         }
     }
     
-    // ZIP - handle as number or string
+  
     if (userDetails.address?.zip) {
         const zipCode = typeof userDetails.address.zip === 'string' 
             ? userDetails.address.zip.trim() 
@@ -68,7 +68,7 @@ const updateUserFormData = (userDetails) => {
         }
     }
 
-    // isBusiness - only append if explicitly set
+ 
     if (userDetails.isBusiness !== undefined) {
         formData.append('isBusiness', userDetails.isBusiness);
     }

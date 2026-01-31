@@ -86,8 +86,6 @@ export const getAllMyCards = async (userId) => {
         throw new Error(error.message);
     }
 };
-
-// NEW - Public function to get any user's cards (for viewing profiles)
 export const getUserCards = async (userId) => {
     try {
         const cards = await getAllCardsByUserIdFromDb(userId);

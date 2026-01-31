@@ -6,7 +6,7 @@ import LoginPage from '../pages/pagesComponents/LoginPage';
 import HomePage from '../pages/pagesComponents/HomePage';
 import About from '../pages/pagesComponents/About';
 import MyProfile from '../pages/pagesComponents/MyProfile';
-import FavoriteProfiles from '../pages/pagesComponents/FavoriteProfiles';
+
 import ErrorPage from "../pages/pagesComponents/ErrorPage";
 import SandBox from '../pages/pagesComponents/SandBox';
 import UserProfile from '../pages/pagesComponents/UserProfile';
@@ -29,7 +29,7 @@ function Router() {
             <Route path={ROUTES.registerRecruiter} element={<RecruiterRegisterPage />} />
             <Route path={ROUTES.about} element={<About />} />
             <Route path={ROUTES.myProfile} element={<MyProfile />} />
-            <Route path={ROUTES.favorite} element={<FavoriteProfiles />} />
+            
             <Route path={`${ROUTES.userProfile}/:userId`} element={<UserProfile />} />
             <Route path={ROUTES.jobs} element={<JobsPage />}/>
             <Route path={`${ROUTES.jobsDetailPage}/:id`} element={<JobDetailPage />}/>

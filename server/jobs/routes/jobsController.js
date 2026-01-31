@@ -13,7 +13,7 @@ import { auth, isRecruiter, isRecruiterOrAdmin } from "../../auth/services/authS
 
 const router = express.Router();
 
-// Create new job (recruiter only)
+
 router.post("/", auth, isRecruiter, async (req, res) => {
     try {
         const newJob = req.body;
@@ -23,7 +23,7 @@ router.post("/", auth, isRecruiter, async (req, res) => {
             return res.status(403).send("Only recruiters can create job postings");
         }
 
-        // Get company name from user's recruiterInfo
+        
         const companyName = user.recruiterInfo?.companyName || "Unknown Company";
         
         const job = await createNewJob(newJob, user._id, companyName);
@@ -34,7 +34,7 @@ router.post("/", auth, isRecruiter, async (req, res) => {
     }
 });
 
-// Get all jobs (public)
+
 router.get("/", async (req, res) => {
     try {
         const allJobs = await getAllJobs();
@@ -45,7 +45,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-// Get jobs by recruiter ID (public)
+
 router.get("/company/:recruiterId", async (req, res) => {
     try {
         const { recruiterId } = req.params;
@@ -62,7 +62,7 @@ router.get("/company/:recruiterId", async (req, res) => {
     }
 });
 
-// Get single job by ID (public)
+
 router.get("/:id", async (req, res) => {
     try {
         const { id } = req.params;
@@ -82,7 +82,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-// Update job (owner or admin only)
+
 router.put("/:id", auth, isRecruiterOrAdmin, async (req, res) => {
     try {
         const user = req.user;
@@ -110,7 +110,7 @@ router.put("/:id", auth, isRecruiterOrAdmin, async (req, res) => {
     }
 });
 
-// Delete job (owner or admin only)
+
 router.delete("/:id", auth, isRecruiterOrAdmin, async (req, res) => {
     try {
         const { id } = req.params;
@@ -140,7 +140,7 @@ router.delete("/:id", auth, isRecruiterOrAdmin, async (req, res) => {
     }
 });
 
-// Toggle job active status (owner or admin only)
+
 router.patch("/:id/toggle-active", auth, isRecruiterOrAdmin, async (req, res) => {
     try {
         const { id } = req.params;

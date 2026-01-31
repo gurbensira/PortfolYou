@@ -29,15 +29,14 @@ function Header() {
         left: [
             { to: ROUTES.root, label: "Home" },
             ...(user ? [
-                { to: ROUTES.favorite, label: "Favorite" },
+                
                 { to: ROUTES.myProfile, label: "My profile" },
                 { to: ROUTES.jobs, label: "Jobs" },
             ] : []),
             { to: ROUTES.about, label: "About" },
         ],
         right: user ? [
-            { to: ROUTES.sandbox, label: "SandBox" },
-            // ← FIX: Only add dashboard link if user is recruiter
+           
             ...(user?.userType === "recruiter" ? [{ to: ROUTES.recruiterDashboard, label: "Dashboard" }] : [])
         ] : [
             { to: ROUTES.login, label: "Login" },
@@ -45,19 +44,19 @@ function Header() {
         ]
     }
 
-    // ← FIX: Filter out any false/null values before creating allLinks
     const allLinks = [...navLinks.left, ...navLinks.right].filter(Boolean)
 
     return (
         <nav className='sticky top-0 z-50 w-full bg-white border-b border-gray-200 shadow-sm'>
             <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
                 <div className='h-16 flex justify-between items-center gap-4'>
-                    {/* Logo/Brand */}
-                    <div className='text-xl font-bold text-gray-800 flex-shrink-0'>
-                        PortfolYou
-                    </div>
+                   
+<a href="/">
+                <div className='text-xl font-bold text-gray-800 flex items-center gap-2 flex-shrink-0'>
+                    <img src="/icon.svg" alt="PortfolYou logo" className="w-8 h-8" />
+                    <h2>PortfolYou</h2>
+                </div></a>
 
-                    {/* Desktop Search Bar */}
                     <SearchBar
                         value={searchQuery}
                         onChange={setSearchQuery}
@@ -66,7 +65,6 @@ function Header() {
                         className='hidden md:block flex-1 max-w-md mx-4'
                     />
 
-                    {/* Desktop Navigation */}
                     <div className='hidden md:flex items-center gap-1'>
                         {navLinks.left.map((link) => (
                             <HeaderLink key={link.to} to={link.to} label={link.label} />
@@ -74,7 +72,7 @@ function Header() {
                     </div>
 
                     <div className='hidden md:flex items-center gap-4'>
-                        {/* ← FIX: Filter out false values */}
+                       
                         {navLinks.right.filter(Boolean).map((link) => (
                             <HeaderLink key={link.to} to={link.to} label={link.label} />
                         ))}
@@ -89,7 +87,7 @@ function Header() {
                         )}
                     </div>
 
-                    {/* Mobile Menu Button */}
+                  
                     <button
                         className='md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors'
                         onClick={() => setIsOpen(!isOpen)}
@@ -99,11 +97,11 @@ function Header() {
                 </div>
             </div>
 
-            {/* Mobile dropdown */}
+           
             {isOpen && (
                 <div className='absolute top-full left-0 w-full bg-white border-b border-gray-200 shadow-lg md:hidden'>
                     <div className='px-4 py-4 space-y-3'>
-                        {/* Mobile Search Bar */}
+                       
                         <SearchBar
                             value={searchQuery}
                             onChange={setSearchQuery}

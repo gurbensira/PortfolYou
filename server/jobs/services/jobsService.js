@@ -22,7 +22,6 @@ export const createNewJob = async (job, recruiterId, companyName) => {
 
         const newJob = await createJob(job);
         
-        // Populate recruiter info
         const populatedJob = await getJobByIdFromDb(newJob._id);
         return populatedJob;
     } catch (error) {
@@ -43,7 +42,6 @@ export const getJobById = async (id) => {
     try {
         const job = await getJobByIdFromDb(id);
         
-        // Increment view count
         job.views = (job.views || 0) + 1;
         await updateJobInDb(id, { views: job.views });
         
@@ -57,7 +55,6 @@ export const updateJob = async (jobId, newJob, userId, isAdmin) => {
     try {
         const existingJob = await getJobByIdFromDb(jobId);
 
-        // Check authorization
         const isOwner = existingJob.postedBy._id.toString() === userId.toString();
         
         if (!isOwner && !isAdmin) {
@@ -81,7 +78,6 @@ export const deleteJob = async (jobId, userId, isAdmin) => {
     try {
         const existingJob = await getJobByIdFromDb(jobId);
 
-        // Check authorization
         const isOwner = existingJob.postedBy._id.toString() === userId.toString();
         
         if (!isOwner && !isAdmin) {
@@ -108,7 +104,6 @@ export const toggleJobActiveStatus = async (jobId, userId, isAdmin) => {
     try {
         const existingJob = await getJobByIdFromDb(jobId);
 
-        // Check authorization
         const isOwner = existingJob.postedBy._id.toString() === userId.toString();
         
         if (!isOwner && !isAdmin) {

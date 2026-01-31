@@ -1,5 +1,4 @@
-// normalizeUserDataForForm.js
-// This helper transforms user data from the API into the format expected by the form
+
 
 const normalizeUserDataForForm = (userData) => {
     if (!userData) return null;
@@ -18,13 +17,13 @@ const normalizeUserDataForForm = (userData) => {
             country: userData.address?.country || '',
             city: userData.address?.city || '',
             street: userData.address?.street || '',
-            // Convert to string in case it's stored as number
+     
             houseNumber: userData.address?.houseNumber ? String(userData.address.houseNumber) : '',
-            // Convert to string in case it's stored as number
+           
             zip: userData.address?.zip ? String(userData.address.zip) : ''
         },
         isBusiness: userData.isBusiness || false,
-        // Note: image file field is not included (file inputs can't be pre-populated)
+        
     };
 };
 

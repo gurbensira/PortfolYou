@@ -21,7 +21,7 @@ export const createNewRecruiter = async (recruiter, uploadedFile) => {
 
         let hashPass = generatePassword(recruiter.password);
         recruiter.password = hashPass;
-        recruiter.userType = 'recruiter'; // Set automatically
+        recruiter.userType = 'recruiter'; 
         recruiter.isAdmin = false;
 
         const newRecruiter = await createUser(recruiter);
@@ -78,12 +78,10 @@ export const updateRecruiter = async (id, newRecruiterData, userId, isAdmin) => 
             throw new Error("User is not a recruiter");
         }
 
-        // Check authorization
         if (!isAdmin && existingRecruiter._id.toString() !== userId.toString()) {
             throw new Error("Access denied - you can only edit your own profile");
         }
 
-        // Only allow updating specific fields
         const allowedUpdates = ['name', 'phone', 'image', 'recruiterInfo'];
         const updates = {};
         
@@ -93,7 +91,6 @@ export const updateRecruiter = async (id, newRecruiterData, userId, isAdmin) => 
             }
         });
 
-        // Don't allow changing critical fields
         delete updates.userType;
         delete updates.email;
         delete updates.password;

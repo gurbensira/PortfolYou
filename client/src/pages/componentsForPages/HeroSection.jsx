@@ -18,7 +18,6 @@ function HeroSection() {
                     Join thousands of developers, designers, and creators sharing their portfolios and building meaningful connections worldwide.
                 </p>
 
-                {/* CTA Buttons */}
                 <div className="flex gap-4 justify-center flex-wrap">
                     <button
                         onClick={() => navigate(ROUTES.register)}
@@ -34,7 +33,6 @@ function HeroSection() {
                     </button>
                 </div>
 
-                {/* Optional: Social proof */}
                 <p className="text-blue-100 text-sm mt-6">
                     No credit card required • Free forever
                 </p>

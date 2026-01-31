@@ -1,4 +1,4 @@
-// UserProfile.jsx
+
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getUserById } from '../../users/services/usersApiService';
@@ -20,7 +20,7 @@ function UserProfile() {
                 setLoading(true);
                 setError(null);
 
-                // Fetch both user and cards in parallel
+                
                 const [userResponse, cardsResponse] = await Promise.all([
                     getUserById(userId),
                     getCardsByUserId(userId)
@@ -42,7 +42,7 @@ function UserProfile() {
         }
     }, [userId]);
 
-    // Loading state
+    
     if (loading) {
         return (
             <div className="flex justify-center items-center min-h-screen bg-gray-50">
@@ -51,7 +51,7 @@ function UserProfile() {
         );
     }
 
-    // Error state
+    
     if (error) {
         return (
             <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50 gap-4">
@@ -66,7 +66,7 @@ function UserProfile() {
         );
     }
 
-    // No user found
+
     if (!profileUser) {
         return (
             <div className="flex justify-center items-center min-h-screen bg-gray-50">
@@ -75,21 +75,21 @@ function UserProfile() {
         );
     }
 
-    // Build full name
+    
     const fullName = `${profileUser.name?.first || ''} ${profileUser.name?.middle ? profileUser.name.middle + ' ' : ''}${profileUser.name?.last || ''}`.trim();
 
     return (
         <div className="min-h-screen bg-gray-50 py-8">
             <div className="container mx-auto px-4 max-w-6xl">
 
-                {/* Profile Header Card */}
+                
                 <div className="bg-white rounded-xl shadow-md overflow-hidden mb-8">
-                    {/* Cover Gradient */}
+                   
                     <div className="h-40 bg-gradient-to-r from-blue-500 to-purple-600"></div>
 
-                    {/* Profile Info */}
+                    
                     <div className="px-6 pb-6">
-                        {/* Profile Picture - overlaps the gradient */}
+                       
                         <div className="-mt-20 mb-4">
                             <img
                                 src={profileUser.image?.url || `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=random&size=200`}
@@ -98,17 +98,17 @@ function UserProfile() {
                             />
                         </div>
 
-                        {/* Name */}
+                       
                         <h1 className="text-3xl font-bold text-gray-800 mb-2">
                             {fullName}
                         </h1>
 
-                        {/* Profession */}
+                        
                         <p className="text-xl text-gray-600 mb-2">
                             {profileUser.profession || 'Creative Professional'}
                         </p>
 
-                        {/* Location */}
+                       
                         {profileUser.address?.city && (
                             <p className="text-gray-500 flex items-center gap-1">
                                 <span>📍</span>
@@ -119,7 +119,7 @@ function UserProfile() {
                             </p>
                         )}
 
-                        {/* Description (optional - for future use) */}
+                        
                         {profileUser.description && (
                             <div className="bg-gray-50 rounded-lg p-4 mt-4">
                                 <p className="text-gray-700 leading-relaxed">
@@ -130,7 +130,7 @@ function UserProfile() {
                     </div>
                 </div>
 
-                {/* Portfolio Section */}
+               
                 <div className="bg-white rounded-xl shadow-md p-6">
                     <div className="flex justify-between items-center mb-6">
                         <h2 className="text-2xl font-bold text-gray-800">
@@ -141,7 +141,7 @@ function UserProfile() {
                         </span>
                     </div>
 
-                    {/* Projects Grid */}
+                   
                     {userCards.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {userCards.map((card) => (
@@ -149,12 +149,12 @@ function UserProfile() {
                                     key={card._id} 
                                     card={card} 
                                     isOwner={false}
-                                    // No onCardDeleted callback since user can't delete
+                                    
                                 />
                             ))}
                         </div>
                     ) : (
-                        // Empty state
+                       
                         <div className="text-center py-16">
                             <div className="text-gray-300 text-6xl mb-4">📂</div>
                             <p className="text-gray-500 text-lg font-medium">
@@ -167,7 +167,7 @@ function UserProfile() {
                     )}
                 </div>
 
-                {/* Back Button */}
+               
                 <div className="mt-8 text-center">
                     <button
                         onClick={() => navigate(-1)}

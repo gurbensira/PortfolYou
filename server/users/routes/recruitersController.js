@@ -10,7 +10,7 @@ import { auth } from "../../auth/services/authService.js";
 
 const router = express.Router();
 
-// Register new recruiter
+
 router.post("/", uploadSingle, async (req, res) => {
     try {
         const recruiterData = req.body;
@@ -25,7 +25,7 @@ router.post("/", uploadSingle, async (req, res) => {
     }
 });
 
-// Get all recruiters
+
 router.get("/", async (req, res) => {
     try {
         const recruiters = await getAllRecruiters();
@@ -36,7 +36,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-// Get single recruiter profile
+
 router.get("/:id", async (req, res) => {
     try {
         const { id } = req.params;
@@ -58,14 +58,14 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-// Update recruiter profile
+
 router.put("/:id", auth, uploadSingle, async (req, res) => {
     try {
         const { id } = req.params;
         const user = req.user;
         const newRecruiterData = req.body;
 
-        // Handle uploaded file
+        
         if (req.file) {
             newRecruiterData.image = {
                 url: req.file.path,

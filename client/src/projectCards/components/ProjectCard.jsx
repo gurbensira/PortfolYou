@@ -11,17 +11,17 @@ function ProjectCard({ card, onCardDeleted, onCardUpdated, isOwner = false }) {
     const [isEditing, setIsEditing] = useState(false);
     const { success, error, warning } = useSnackbar();
 
-    // Check if current user owns this card
+    
     const canModify = isOwner || (currentUser && card.user_id === currentUser._id);
 
     const handleDelete = async () => {
-        // Double-check ownership
+       
         if (!canModify) {
             warning("You don't have permission to delete this project");
             return;
         }
 
-        // Confirm deletion
+        
         const confirmDelete = window.confirm(
             `Are you sure you want to delete "${card.title}"? This action cannot be undone.`
         );
@@ -33,7 +33,7 @@ function ProjectCard({ card, onCardDeleted, onCardUpdated, isOwner = false }) {
             await deleteCard(card._id);
             success('Project deleted successfully');
             
-            // Call the callback to refresh the cards list
+            
             if (onCardDeleted) {
                 onCardDeleted(card._id);
             }
@@ -61,7 +61,7 @@ function ProjectCard({ card, onCardDeleted, onCardUpdated, isOwner = false }) {
         }
     };
 
-    // If editing, show the edit form instead of the card
+    
     if (isEditing) {
         return (
             <div className='w-full'>
@@ -74,10 +74,10 @@ function ProjectCard({ card, onCardDeleted, onCardUpdated, isOwner = false }) {
         );
     }
 
-    // Normal card view
+   
     return (
         <div className='w-full bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200'>
-            {/* Project Image */}
+           
             <div className="h-48 overflow-hidden bg-gray-200">
                 <img
                     src={card.image?.url || card.image || 'https://via.placeholder.com/400x300?text=Project'}
@@ -86,19 +86,19 @@ function ProjectCard({ card, onCardDeleted, onCardUpdated, isOwner = false }) {
                 />
             </div>
 
-            {/* Project Info */}
+           
             <div className="p-4">
-                {/* Title */}
+              
                 <h2 className='text-lg font-semibold text-gray-800 mb-2'>
                     {card.title || 'Untitled Project'}
                 </h2>
 
-                {/* Description */}
+              
                 <p className='text-sm text-gray-600 mb-3 line-clamp-3'>
                     {card.description || 'No description available'}
                 </p>
 
-                {/* Link */}
+               
                 {card.web && (
                     <div className='flex items-center gap-2 mt-auto'>
                         <span className='text-sm font-semibold text-gray-700'>Link:</span>
@@ -113,7 +113,7 @@ function ProjectCard({ card, onCardDeleted, onCardUpdated, isOwner = false }) {
                     </div>
                 )}
 
-                {/* Tags (if your cards have them) */}
+                
                 {card.tags && card.tags.length > 0 && (
                     <div className="flex flex-wrap gap-2 mt-3">
                         {card.tags.slice(0, 3).map((tag, index) => (
@@ -128,11 +128,11 @@ function ProjectCard({ card, onCardDeleted, onCardUpdated, isOwner = false }) {
                 )}
             </div>
 
-            {/* Action Buttons - Only show if user owns the card */}
+           
             <div className='flex w-full justify-end p-3 gap-2 border-t border-gray-100'>
                 {canModify ? (
                     <>
-                        {/* Edit Button */}
+                       
                         <button
                             onClick={handleEdit}
                             className="flex items-center gap-1 px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
@@ -142,7 +142,7 @@ function ProjectCard({ card, onCardDeleted, onCardUpdated, isOwner = false }) {
                             <span>Edit</span>
                         </button>
 
-                        {/* Delete Button */}
+                        
                         <button
                             onClick={handleDelete}
                             disabled={isDeleting}
@@ -158,7 +158,7 @@ function ProjectCard({ card, onCardDeleted, onCardUpdated, isOwner = false }) {
                         </button>
                     </>
                 ) : (
-                    // Show disabled buttons for non-owners
+                  
                     <>
                     <button
                         disabled

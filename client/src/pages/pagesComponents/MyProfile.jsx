@@ -19,7 +19,7 @@ function MyProfile() {
     const [showUpdateForm, setShowUpdateForm] = useState(false);
 
     useEffect(() => {
-        // If not logged in, redirect to login
+        
         if (!currentUser) {
             navigate('/login');
             return;
@@ -29,7 +29,7 @@ function MyProfile() {
             try {
                 setLoading(true);
 
-                // Fetch user profile and cards in parallel
+                
                 const [userResponse, cardsResponse] = await Promise.all([
                     getUserById(currentUser._id),
                     getCardsByUserId(currentUser._id)
@@ -48,24 +48,24 @@ function MyProfile() {
         fetchMyData();
     }, [currentUser, navigate]);
 
-    // Refresh cards after creating a new one
+    
     const handleCardCreated = async () => {
         try {
             const cardsResponse = await getCardsByUserId(currentUser._id);
             setUserCards(cardsResponse.data);
-            setShowCreateForm(false); // Close the form
+            setShowCreateForm(false); 
         } catch (error) {
             console.error('Error refreshing cards:', error);
         }
     };
 
-    // Handle card deletion
+    
     const handleCardDeleted = (deletedCardId) => {
-        // Remove the deleted card from the state
+        
         setUserCards(prevCards => prevCards.filter(card => card._id !== deletedCardId));
     };
 
-    // Handle card update
+    
     const handleCardUpdated = async () => {
         try {
             const cardsResponse = await getCardsByUserId(currentUser._id);
@@ -79,7 +79,7 @@ function MyProfile() {
         try {
             const updateResponse = await getUserById(currentUser._id);
             setProfileData(updateResponse.data);
-            setShowUpdateForm(false); // Close the form
+            setShowUpdateForm(false); 
         } catch (error) {
             console.error('Error refreshing profile:', error);
         }
@@ -107,14 +107,14 @@ function MyProfile() {
         <div className="min-h-screen bg-gray-50 py-8">
             <div className="container mx-auto px-4 max-w-6xl">
 
-                {/* Profile Header Card */}
+              
                 <div className="bg-white rounded-xl shadow-md overflow-hidden mb-8">
-                    {/* Cover Gradient */}
+                   
                     <div className="h-40 bg-gradient-to-r from-blue-500 to-purple-600"></div>
 
-                    {/* Profile Info */}
+                    
                     <div className="px-6 pb-6">
-                        {/* Profile Picture */}
+                        
                         <div className="-mt-20 mb-4 flex justify-between items-end">
                             <img
                                 src={profileData.image?.url || `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=random&size=200`}
@@ -122,7 +122,7 @@ function MyProfile() {
                                 className="w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover"
                             />
 
-                            {/* Edit Profile Button */}
+                           
                             <button
                                 onClick={() => setShowUpdateForm(!showUpdateForm)}
                                 className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all"
@@ -146,17 +146,17 @@ function MyProfile() {
                             </div>
                         )}
 
-                        {/* Name */}
+                       
                         <h1 className="text-3xl font-bold text-gray-800 mb-2">
                             {fullName}
                         </h1>
 
-                        {/* Profession */}
+                        
                         <p className="text-xl text-gray-600 mb-2">
                             {profileData.profession || 'Creative Professional'}
                         </p>
 
-                        {/* Location */}
+                       
                         {profileData.address?.city && (
                             <p className="text-gray-500 flex items-center gap-1 mb-4">
                                 <span>📍</span>
@@ -167,7 +167,7 @@ function MyProfile() {
                             </p>
                         )}
 
-                        {/* Personal Information */}
+                        
                         <div className="bg-gray-50 rounded-lg p-4 mt-4">
                             <h3 className="font-semibold text-gray-800 mb-3">Contact Information</h3>
                             <div className="space-y-2 text-sm">
@@ -186,7 +186,7 @@ function MyProfile() {
                     </div>
                 </div>
 
-                {/* Portfolio Section */}
+               
                 <div className="bg-white rounded-xl shadow-md p-6">
                     <div className="flex justify-between items-center mb-6">
                         <div>
@@ -198,7 +198,7 @@ function MyProfile() {
                             </p>
                         </div>
 
-                        {/* Add Project Button */}
+                    
                         <button
                             onClick={() => setShowCreateForm(!showCreateForm)}
                             className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all"
@@ -207,7 +207,7 @@ function MyProfile() {
                         </button>
                     </div>
 
-                    {/* Create Card Form - Shows when button clicked */}
+                    
                     {showCreateForm && (
                         <div className="mb-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg p-6 border-2 border-blue-200">
                             <div className="flex justify-between items-center mb-4">
@@ -223,7 +223,7 @@ function MyProfile() {
                         </div>
                     )}
 
-                    {/* Projects Grid */}
+                   
                     {userCards.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {userCards.map((card) => (
@@ -237,7 +237,7 @@ function MyProfile() {
                             ))}
                         </div>
                     ) : (
-                        // Empty state
+                       
                         <div className="text-center py-16">
                             <div className="text-gray-300 text-6xl mb-4">📂</div>
                             <p className="text-gray-500 text-lg font-medium">

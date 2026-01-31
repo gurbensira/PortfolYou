@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { getAllUsers } from '../../users/services/usersApiService'
 import { recruiterService } from '../../users/services/recruitersApiService'
@@ -7,8 +7,8 @@ import { useCurrentUser } from '../../users/providers/UserProvider';
 import LoggedUserHeroSection from '../componentsForPages/LoggedUserHeroSection';
 import HeroSection from '../componentsForPages/HeroSection';
 import useUserSearch from '../../hooks/useUserSearch';
-import useUserFilter from '../../hooks/useUserFilter'; // ← ADD
-import FilterBar from '../../components/FilterBar'; // ← ADD
+import useUserFilter from '../../hooks/useUserFilter';
+import FilterBar from '../../components/FilterBar';
 
 function HomePage() {
     const { user: currentUser } = useCurrentUser();
@@ -20,10 +20,12 @@ function HomePage() {
     const [activeView, setActiveView] = useState('all');
     const [page, setPage] = useState(1);
     const [pagination, setPagination] = useState(null);
+    
+    const recruitersRef = useRef([]);
+    const recruitersLoadedRef = useRef(false);
 
     const searchQuery = searchParams.get('search') || '';
 
-    // Search hook
     const {
         searchTerm,
         setSearchTerm,
@@ -32,7 +34,6 @@ function HomePage() {
         isSearching,
     } = useUserSearch(usersToshow);
 
-    // ← ADD: Filter hook (applies AFTER search)
     const {
         filters,
         updateFilter,
@@ -50,29 +51,45 @@ function HomePage() {
             try {
                 setLoading(true);
 
-                const [developersResponse, recruitersResponse] = await Promise.all([
-                    getAllUsers(page, 10),
-                    recruiterService.getAllRecruiters()
-                ]);
+                
+                if (!recruitersLoadedRef.current) {
+                    const recruitersResponse = await recruiterService.getAllRecruiters();
+                    recruitersRef.current = recruitersResponse || [];
+                    recruitersLoadedRef.current = true;
+                }
 
+              
+                const developersResponse = await getAllUsers(page, 10);
                 const developers = developersResponse.data.data;
-                const recruiters = recruitersResponse || [];
 
                 const developersWithType = developers.map(user => ({
                     ...user,
                     displayKey: `dev-${user._id}`
                 }));
 
-                const recruitersWithType = recruiters.map(user => ({
+                const recruitersWithType = recruitersRef.current.map(user => ({
                     ...user,
                     displayKey: `rec-${user._id}`
                 }));
 
-                const combinedUsers = [...developersWithType, ...recruitersWithType];
+               
+                const combinedUsers = page === 1 
+                    ? [...developersWithType, ...recruitersWithType]
+                    : developersWithType;
 
                 setAllUsers(combinedUsers);
-                setUsersToshow(combinedUsers);
-                setPagination(developersResponse.data.pagination);
+                
+                if (activeView === 'all') {
+                    setUsersToshow(combinedUsers);
+                }
+                
+                const originalPagination = developersResponse.data.pagination;
+                const updatedPagination = {
+                    ...originalPagination,
+                    totalUsers: originalPagination.totalUsers + recruitersRef.current.length,
+                };
+                
+                setPagination(updatedPagination);
             } catch (err) {
                 setError('Failed to load users');
                 console.error(err);
@@ -83,46 +100,7 @@ function HomePage() {
 
         fetchUsers();
 
-    }, [currentUser?._id, page]);
-
-    useEffect(() => {
-        const silentRefetch = async () => {
-            try {
-                const [developersResponse, recruitersResponse] = await Promise.all([
-                    getAllUsers(page, 10),
-                    recruiterService.getAllRecruiters()
-                ]);
-
-                const developers = developersResponse.data.data;
-                const recruiters = recruitersResponse || [];
-
-                const developersWithType = developers.map(user => ({
-                    ...user,
-                    displayKey: `dev-${user._id}`
-                }));
-
-                const recruitersWithType = recruiters.map(user => ({
-                    ...user,
-                    displayKey: `rec-${user._id}`
-                }));
-
-                const combinedUsers = [...developersWithType, ...recruitersWithType];
-
-                setAllUsers(combinedUsers);
-
-                if (activeView === 'all') {
-                    setUsersToshow(combinedUsers);
-                }
-                setPagination(developersResponse.data.pagination);
-            } catch (err) {
-                console.error('Silent refetch failed:', err);
-            }
-        };
-
-        if (currentUser?.following) {
-            silentRefetch();
-        }
-    }, [currentUser?.following, activeView, page]);
+    }, [page, activeView]);
 
     useEffect(() => {
         if (activeView === 'following' && currentUser?.following) {
@@ -180,7 +158,6 @@ function HomePage() {
             <div className='flex flex-col px-6'>
                 {currentUser ? <LoggedUserHeroSection user={currentUser} /> : <HeroSection />}
 
-                {/* Search Results Message */}
                 {isSearching && (
                     <div className="text-center mb-6">
                         <p className="text-lg text-gray-700">
@@ -206,7 +183,6 @@ function HomePage() {
                     </h2>
                 </div>
 
-                {/* ← ADD: Filter Bar */}
                 <FilterBar
                     filters={filters}
                     updateFilter={updateFilter}
@@ -216,7 +192,6 @@ function HomePage() {
                 />
             </div>
 
-            {/* ← CHANGE: Use finalUsers (after search AND filters) */}
             {finalUsers.length === 0 ? (
                 <div className="text-center py-12">
                     <p className="text-gray-600 text-lg">
@@ -244,7 +219,6 @@ function HomePage() {
                 </div>
             )}
 
-            {/* Only show pagination when not searching/filtering */}
             {activeView === 'all' && pagination && !isSearching && !hasActiveFilters && (
                 <div className="flex justify-center items-center gap-4 mt-12 mb-8">
                     <button
@@ -261,7 +235,7 @@ function HomePage() {
                     <span className="text-gray-700 font-medium">
                         Page {pagination.currentPage} of {pagination.totalPages}
                         <span className="text-gray-500 text-sm ml-2">
-                            ({pagination.totalUsers} users)
+                            ({pagination.totalUsers} users total)
                         </span>
                     </span>
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useMemo } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useCurrentUser } from '../providers/UserProvider';
-import { useSnackbar } from '../../providers/SnackbarProvider'; // ← IMPORT
+import { useSnackbar } from '../../providers/SnackbarProvider'; 
 import { toggleFollowUser } from '../services/usersApiService';
 import ROUTES from "../../routes/routesDict";
 import { FaUser, FaBriefcase, FaStar } from 'react-icons/fa';
@@ -14,7 +14,7 @@ function UserCard({ user }) {
     
     const navigate = useNavigate();
     const { user: currentUser, refetchUser } = useCurrentUser();
-    const { success, error, warning } = useSnackbar(); // ← USE PROVIDER
+    const { success, error, warning } = useSnackbar(); 
     
     const [isFollow, setIsFollow] = useState(() => {
         if (!currentUser?._id || !currentUser.following) return false;
@@ -37,7 +37,7 @@ function UserCard({ user }) {
 
     const handleClickFollowBtn = async (e) => {
         if (!currentUser) {
-            warning('Please login to follow users'); // ← CLEAN!
+            warning('Please login to follow users'); 
             return;
         }
         e.preventDefault();
@@ -51,7 +51,7 @@ function UserCard({ user }) {
             await toggleFollowUser(user._id);
             await refetchUser();
             
-            // ← CLEAN!
+            
             if (wasFollowing) {
                 success(`You unfollowed ${user.name?.first}`);
             } else {
@@ -60,7 +60,7 @@ function UserCard({ user }) {
         } catch (err) {
             setIsFollow((prev) => !prev);
             console.error('Failed to follow/unfollow:', err);
-            error('Failed to update follow status'); // ← CLEAN!
+            error('Failed to update follow status'); 
         }
     };
 

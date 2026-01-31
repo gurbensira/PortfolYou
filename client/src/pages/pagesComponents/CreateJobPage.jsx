@@ -17,7 +17,7 @@ function CreateJobPage() {
     setError('');
     
     try {
-      // Filter out empty entries
+      
       const jobData = {
         ...data,
         requirements: data.requirements.filter(r => r.trim()),

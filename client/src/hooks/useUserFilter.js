@@ -2,33 +2,32 @@ import { useState, useMemo } from 'react';
 
 function useUserFilter(users) {
   const [filters, setFilters] = useState({
-    userType: '', // 'regular' or 'recruiter'
+    userType: '', 
     city: '',
-    sortBy: 'newest' // 'newest', 'oldest', 'mostFollowed'
+    sortBy: 'newest' 
   });
 
   const filteredAndSortedUsers = useMemo(() => {
     let result = [...users];
 
-    // Filter by user type
+    
     if (filters.userType) {
       result = result.filter(user => {
         if (filters.userType === 'regular') {
-          // ← FIXED: Include users with userType 'regular' OR no userType (legacy users)
           return user.userType === 'regular' || !user.userType || user.userType === '';
         }
         return user.userType === filters.userType;
       });
     }
 
-    // Filter by city
+
     if (filters.city) {
       result = result.filter(user =>
         user.address?.city?.toLowerCase().includes(filters.city.toLowerCase())
       );
     }
 
-    // Sort
+  
     switch (filters.sortBy) {
       case 'newest':
         result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));

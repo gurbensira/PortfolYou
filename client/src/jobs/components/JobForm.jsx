@@ -27,7 +27,6 @@ function JobForm({ onSubmit, defaultValues, isLoading, submitText = 'Post Job' }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/* Basic Info */}
       <div>
         <label className="block text-sm font-medium mb-1">Job Title *</label>
         <input
@@ -50,7 +49,6 @@ function JobForm({ onSubmit, defaultValues, isLoading, submitText = 'Post Job' }
         {errors.description && <p className="text-red-600 text-sm mt-1">{errors.description.message}</p>}
       </div>
 
-      {/* Requirements */}
       <div>
         <label className="block text-sm font-medium mb-1">Requirements *</label>
         {reqFields.map((field, index) => (
@@ -80,7 +78,6 @@ function JobForm({ onSubmit, defaultValues, isLoading, submitText = 'Post Job' }
         </button>
       </div>
 
-      {/* Responsibilities */}
       <div>
         <label className="block text-sm font-medium mb-1">Responsibilities *</label>
         {respFields.map((field, index) => (
@@ -110,7 +107,6 @@ function JobForm({ onSubmit, defaultValues, isLoading, submitText = 'Post Job' }
         </button>
       </div>
 
-      {/* Tech Stack */}
       <div>
         <label className="block text-sm font-medium mb-1">Tech Stack *</label>
         {techFields.map((field, index) => (
@@ -140,7 +136,6 @@ function JobForm({ onSubmit, defaultValues, isLoading, submitText = 'Post Job' }
         </button>
       </div>
 
-      {/* Job Details */}
       <div className="grid md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium mb-1">Experience Level *</label>
@@ -199,7 +194,6 @@ function JobForm({ onSubmit, defaultValues, isLoading, submitText = 'Post Job' }
         </div>
       </div>
 
-      {/* Salary Range (Optional) */}
       <div className="grid md:grid-cols-3 gap-4">
         <div>
           <label className="block text-sm font-medium mb-1">Min Salary</label>

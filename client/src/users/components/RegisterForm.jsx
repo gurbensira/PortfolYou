@@ -44,7 +44,7 @@ success('Account created successfully! Welcome to PortfolYou!');
         <form onSubmit={handleSubmit(onSubmit)}
             className='min-h-[40vh] max-w-md border border-gray-300 rounded-lg bg-white flex-col flex items-center justify-center gap-4 p-6 shadow-sm'>
 
-            {/* First Name */}
+      
             <div className="w-[85%]">
                 <input
                     {...register("first", {
@@ -64,7 +64,6 @@ success('Account created successfully! Welcome to PortfolYou!');
                 )}
             </div>
 
-            {/* Middle Name */}
             <div className="w-[85%]">
                 <input
                     {...register("middle")}
@@ -74,7 +73,7 @@ success('Account created successfully! Welcome to PortfolYou!');
                 />
             </div>
 
-            {/* Last Name */}
+       
             <div className="w-[85%]">
                 <input
                     {...register("last", {
@@ -94,7 +93,7 @@ success('Account created successfully! Welcome to PortfolYou!');
                 )}
             </div>
 
-            {/* Profession */}
+       
             <div className="w-[85%]">
                 <input
                     {...register("profession", {
@@ -114,7 +113,6 @@ success('Account created successfully! Welcome to PortfolYou!');
                 )}
             </div>
 
-            {/* Email */}
             <div className="w-[85%]">
                 <input
                     {...register("email", {
@@ -134,7 +132,7 @@ success('Account created successfully! Welcome to PortfolYou!');
                 )}
             </div>
 
-            {/* Phone */}
+            
             <div className="w-[85%]">
                 <input
                     {...register("phone", {
@@ -154,7 +152,7 @@ success('Account created successfully! Welcome to PortfolYou!');
                 )}
             </div>
 
-            {/* Password */}
+        
             <div className="w-[85%]">
                 <input
                     {...register("password", {
@@ -176,7 +174,7 @@ success('Account created successfully! Welcome to PortfolYou!');
                 {errors.password && (
                     <p className="text-xs text-red-600 mt-1">{errors.password.message}</p>
                 )}
-                {/* Password Requirements Helper Text */}
+             
                 <div className="mt-2 p-2 bg-gray-50 rounded border border-gray-200">
                     <p className="text-xs text-gray-600 font-medium mb-1">Password must contain:</p>
                     <ul className="text-xs text-gray-600 space-y-0.5">
@@ -189,7 +187,7 @@ success('Account created successfully! Welcome to PortfolYou!');
                 </div>
             </div>
 
-            {/* Profile Image Alt */}
+         
             <div className="w-[85%]">
                 <input
                     {...register("imageAlt")}
@@ -199,7 +197,6 @@ success('Account created successfully! Welcome to PortfolYou!');
                 />
             </div>
 
-            {/* Profile Image Upload */}
             <div className='w-[85%]'>
                 <label className='block text-sm font-medium mb-2 text-gray-700'>Profile Image (optional)</label>
                 <input
@@ -210,7 +207,7 @@ success('Account created successfully! Welcome to PortfolYou!');
                 />
             </div>
 
-            {/* Submit Button */}
+            
             <button type="submit" className='w-[85%] py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors font-medium cursor-pointer'>
                 Submit
             </button>

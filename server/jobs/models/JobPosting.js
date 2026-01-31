@@ -85,7 +85,7 @@ const jobPostingSchema = new Schema({
   },
 });
 
-// Update timestamp on save
+
 jobPostingSchema.pre('save', function(next) {
   this.updatedAt = Date.now();
   next();

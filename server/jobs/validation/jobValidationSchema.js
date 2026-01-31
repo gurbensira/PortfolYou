@@ -55,4 +55,4 @@ export const jobUpdateSchema = Joi.object({
         .ruleset.regex(urlRegex)
         .rule({ message: 'applicationUrl must be a valid url' }),
     isActive: Joi.boolean(),
-}).min(1); // At least one field must be provided for update
+}).min(1); 

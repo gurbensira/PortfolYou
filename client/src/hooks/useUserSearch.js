@@ -18,7 +18,7 @@ function useUserSearch(users) {
       const city = user.address?.city?.toLowerCase() || '';
       const country = user.address?.country?.toLowerCase() || '';
       
-      // For recruiters
+     
       const companyName = user.recruiterInfo?.companyName?.toLowerCase() || '';
       const industry = user.recruiterInfo?.industry?.toLowerCase() || '';
 

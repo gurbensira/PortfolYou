@@ -18,16 +18,16 @@ export const auth = (req, res, next) => {
 export const optionalAuth = (req, res, next) => {
     const token = req.header("x-auth-token");
 
-    // No token? No problem - just continue without user info
+   
     if (!token) {
         req.user = null;
         return next();
     }
 
-    // Try to verify token
+    
     const userInfo = verifyToken(token);
 
-    // If valid token, attach user info. If invalid, treat as unauthenticated
+    
     req.user = userInfo || null;
     next();
 };

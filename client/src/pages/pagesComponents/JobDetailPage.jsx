@@ -65,9 +65,9 @@ function JobDetailPage() {
 
       <div className="container mx-auto px-4 py-8">
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Main Content */}
+         
           <div className="lg:col-span-2 space-y-6">
-            {/* Job Details Card */}
+           
             <div className="bg-white rounded-lg shadow-md p-6">
               <div className="flex flex-wrap gap-4 mb-6 text-gray-600">
                 <span className="flex items-center">
@@ -127,9 +127,9 @@ function JobDetailPage() {
             </div>
           </div>
 
-          {/* Sidebar */}
+         
           <div className="space-y-6">
-            {/* Apply Card */}
+           
             <div className="bg-white rounded-lg shadow-md p-6"
               
                 href={job.applicationUrl}
@@ -141,7 +141,7 @@ function JobDetailPage() {
               </a>
             </div>
 
-            {/* Salary Card */}
+            
             {job.salaryRange && (job.salaryRange.min || job.salaryRange.max) && (
               <div className="bg-white rounded-lg shadow-md p-6">
                 <h3 className="font-bold mb-3 flex items-center gap-2">
@@ -155,7 +155,7 @@ function JobDetailPage() {
               </div>
             )}
 
-            {/* Company Card */}
+            
             <div className="bg-white rounded-lg shadow-md p-6">
               <h3 className="font-bold mb-3 flex items-center gap-2">
                 <FaBuilding /> About Company
@@ -175,7 +175,7 @@ function JobDetailPage() {
               )}
             </div>
 
-            {/* Edit/Delete Actions */}
+           
             {canEdit && (
               <div className="bg-white rounded-lg shadow-md p-6">
                 <h3 className="font-bold mb-3">Manage Job</h3>

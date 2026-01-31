@@ -1,4 +1,4 @@
-// EditProfileForm.jsx
+
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import updateUserFormData from '../helpers/formData/updateUserFormData';
@@ -14,7 +14,7 @@ function EditProfileForm({userId, onProfileUpdated }) {
     const [isLoading, setIsLoading] = useState(true);
     const { success, error } = useSnackbar();
 
-    // Load existing user data when component mounts
+    
     useEffect(() => {
         const loadUserData = async () => {
             try {
@@ -22,7 +22,7 @@ function EditProfileForm({userId, onProfileUpdated }) {
                 const response = await getUserById(userId);
                 const userData = response.data;
                 
-                // Use helper to normalize data for form
+                
                 const formData = normalizeUserDataForForm(userData);
                 reset(formData);
                 
@@ -43,13 +43,13 @@ function EditProfileForm({userId, onProfileUpdated }) {
         try {
             setIsSubmitting(true);
             
-            // Use helper to prepare data for API
+           
             const formData = updateUserFormData(data);
             const response = await editUserProfile(userId, formData);
             console.log('Profile updated successfully:', response);
             success('Profile updated successfully!');
 
-            // If callback provided (used in MyProfile), call it
+           
             if (onProfileUpdated) {
                 onProfileUpdated();
             }
@@ -74,7 +74,7 @@ function EditProfileForm({userId, onProfileUpdated }) {
         <form onSubmit={handleSubmit(onSubmit)}
             className='w-full border border-gray-300 rounded-lg bg-white flex-col flex items-center justify-center gap-4 p-6 shadow-sm'>
 
-            {/* Name fields */}
+            
             <div className='w-full'>
                 <label className='block text-sm font-medium mb-2 text-gray-700'>Name</label>
                 <div className='flex gap-2'>
@@ -110,7 +110,7 @@ function EditProfileForm({userId, onProfileUpdated }) {
                 </div>
             </div>
 
-            {/* Phone */}
+          
             <div className='w-full'>
                 <label className='block text-sm font-medium mb-2 text-gray-700'>Phone</label>
                 <input
@@ -128,7 +128,7 @@ function EditProfileForm({userId, onProfileUpdated }) {
                 {errors.phone && <span className='text-red-500 text-sm w-full'>{errors.phone.message}</span>}
             </div>
 
-            {/* Profession */}
+    
             <div className='w-full'>
                 <label className='block text-sm font-medium mb-2 text-gray-700'>Profession</label>
                 <input
@@ -141,7 +141,7 @@ function EditProfileForm({userId, onProfileUpdated }) {
                 {errors.profession && <span className='text-red-500 text-sm w-full'>{errors.profession.message}</span>}
             </div>
 
-            {/* Address Section */}
+           
             <div className='w-full border-t pt-4'>
                 <label className='block text-sm font-medium mb-2 text-gray-700'>Address (optional)</label>
                 <div className='grid grid-cols-2 gap-3'>
@@ -190,7 +190,7 @@ function EditProfileForm({userId, onProfileUpdated }) {
                 </div>
             </div>
 
-            {/* Profile Image */}
+           
             <div className='w-full border-t pt-4'>
                 <label className='block text-sm font-medium mb-2 text-gray-700'>Profile Image</label>
                 <input

@@ -9,13 +9,12 @@ function SearchBar({
   className = "" 
 }) {
   const handleSubmit = (e) => {
-    e.preventDefault(); // ← Prevents page reload
+    e.preventDefault(); 
     if (onSubmit) {
       onSubmit(value);
     }
   };
 
-  // ← NEW: Handler for clicking the search icon
   const handleIconClick = () => {
     if (onSubmit && value.trim()) {
       onSubmit(value);
@@ -32,7 +31,6 @@ function SearchBar({
         className='w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
       />
       
-      {/* ← CHANGED: Make icon clickable */}
       <button
         type="button"
         onClick={handleIconClick}

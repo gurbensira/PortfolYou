@@ -46,14 +46,14 @@ export const getAllUsersFromDb = async (page = 1, limit = 20) => {
     try {
         const skip = (page - 1) * limit;
 
-        const users = await User.find()
+        const users = await User.find({ userType: { $ne: 'recruiter' }})
             .populate('following', 'name image profession address')
             .populate('followers', 'name image profession address')
             .skip(skip)
             .limit(limit)
             .sort({ createdAt: -1 });
 
-        const totalUsers = await User.countDocuments();
+        const totalUsers = await User.countDocuments({ userType: { $ne: 'recruiter' } });
 
         return {
             users,

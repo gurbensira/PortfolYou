@@ -7,5 +7,3 @@ function Main({ children }) {
 }
 
 export default Main
-
-// 'h-[84%] overflow-y-auto'

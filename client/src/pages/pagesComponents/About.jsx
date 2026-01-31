@@ -10,7 +10,7 @@ function About() {
         <div className="min-h-screen bg-gray-50 py-12">
             <div className="container mx-auto px-4 max-w-5xl">
 
-                {/* Hero Section */}
+                
                 <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-lg overflow-hidden mb-12">
                     <div className="px-8 py-16 text-white text-center">
                         <h1 className="text-4xl md:text-5xl font-bold mb-4">
@@ -25,7 +25,7 @@ function About() {
                     </div>
                 </div>
 
-                {/* What is PortfolYou Section */}
+               
                 <div className="bg-white rounded-xl shadow-md p-8 mb-8">
                     <h2 className="text-3xl font-bold text-gray-800 mb-6">
                         What is PortfolYou?
@@ -40,14 +40,14 @@ function About() {
                     </div>
                 </div>
 
-                {/* How to Use Section */}
+                
                 <div className="bg-white rounded-xl shadow-md p-8 mb-8">
                     <h2 className="text-3xl font-bold text-gray-800 mb-6">
                         How to Use PortfolYou
                     </h2>
 
                     <div className="space-y-8">
-                        {/* Step 1 */}
+                      
                         <div className="flex gap-4">
                             <div className="flex-shrink-0 w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center text-xl font-bold">
                                 1
@@ -70,7 +70,7 @@ function About() {
                             </div>
                         </div>
 
-                        {/* Step 2 */}
+                       
                         <div className="flex gap-4">
                             <div className="flex-shrink-0 w-12 h-12 bg-purple-500 text-white rounded-full flex items-center justify-center text-xl font-bold">
                                 2
@@ -85,7 +85,7 @@ function About() {
                             </div>
                         </div>
 
-                        {/* Step 3 */}
+                       
                         <div className="flex gap-4">
                             <div className="flex-shrink-0 w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center text-xl font-bold">
                                 3
@@ -100,7 +100,7 @@ function About() {
                             </div>
                         </div>
 
-                        {/* Step 4 */}
+                       
                         <div className="flex gap-4">
                             <div className="flex-shrink-0 w-12 h-12 bg-orange-500 text-white rounded-full flex items-center justify-center text-xl font-bold">
                                 4
@@ -115,7 +115,7 @@ function About() {
                             </div>
                         </div>
 
-                        {/* Step 5 */}
+                        
                         <div className="flex gap-4">
                             <div className="flex-shrink-0 w-12 h-12 bg-red-500 text-white rounded-full flex items-center justify-center text-xl font-bold">
                                 5
@@ -132,7 +132,7 @@ function About() {
                     </div>
                 </div>
 
-                {/* Project Cards Info */}
+            
                 <div className="bg-white rounded-xl shadow-md p-8 mb-8">
                     <h2 className="text-3xl font-bold text-gray-800 mb-6">
                         Creating Effective Project Cards
@@ -190,7 +190,7 @@ function About() {
                     </div>
                 </div>
 
-                {/* Best Practices */}
+                
                 <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl shadow-md p-8 mb-8 border-2 border-blue-200">
                     <h2 className="text-3xl font-bold text-gray-800 mb-6">
                         💡 Best Practices
@@ -219,7 +219,7 @@ function About() {
                     </div>
                 </div>
 
-                {/* Call to Action */}
+                
                 <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-lg p-8 text-center text-white">
                     <h2 className="text-3xl font-bold mb-4">
                         Ready to Get Started?

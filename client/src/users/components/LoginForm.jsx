@@ -23,7 +23,7 @@ function LoginForm() {
         } catch (error) {
             console.error('Login error:', error);
             error('Login failed. Please check your credentials.');
-            // Set form-level error
+            
             setError('root', {
                 type: 'manual',
                 message: error.response?.data || 'Login failed. Please check your credentials.'
@@ -35,7 +35,7 @@ function LoginForm() {
         <form onSubmit={handleSubmit(onSubmit)}
             className='min-h-[20vh] max-w-md border border-gray-300 rounded-lg bg-white flex-col flex items-center justify-center gap-4 p-6 shadow-sm'>
 
-            {/* Form-level Error Message */}
+          
             {errors.root && (
                 <div className="w-[85%] p-3 bg-red-50 border border-red-200 rounded-md">
                     <p className="text-sm text-red-600 flex items-center">
@@ -47,7 +47,7 @@ function LoginForm() {
                 </div>
             )}
 
-            {/* Email Input */}
+         
             <div className="w-[85%]">
                 <input
                     {...register("email", {
@@ -72,7 +72,7 @@ function LoginForm() {
                 )}
             </div>
 
-            {/* Password Input */}
+        
             <div className="w-[85%]">
                 <input
                     {...register("password", {
@@ -93,7 +93,7 @@ function LoginForm() {
                 )}
             </div>
 
-            {/* Submit Button */}
+          
             <button type="submit" className='w-[85%] py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors font-medium cursor-pointer'>
                 Login
             </button>

@@ -8,7 +8,7 @@ function ContactPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
+      
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16">
         <div className="container mx-auto px-4">
           <h1 className="text-4xl font-bold mb-2">Contact Us</h1>
@@ -19,7 +19,7 @@ function ContactPage() {
       <div className="container mx-auto px-4 py-12">
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           
-          {/* Contact Form */}
+         
           <div className="bg-white rounded-lg shadow-lg p-8">
             <h2 className="text-2xl font-bold mb-6">Send us a message</h2>
             
@@ -35,13 +35,13 @@ function ContactPage() {
               method="POST"
               className="space-y-4"
             >
-              {/* FormSubmit Configuration */}
+             
               <input type="hidden" name="_next" value="http://localhost:5173/contactPage?success=true" />
               <input type="hidden" name="_subject" value="New Contact from PortfolYou!" />
               <input type="hidden" name="_captcha" value="false" />
               <input type="hidden" name="_template" value="table" />
 
-              {/* Form Fields */}
+              
               <div>
                 <label className="block text-sm font-medium mb-1">Your Name *</label>
                 <input
@@ -95,7 +95,7 @@ function ContactPage() {
             </form>
           </div>
 
-          {/* Contact Information */}
+          
           <div className="space-y-6">
             <div className="bg-white rounded-lg shadow-lg p-8">
               <h2 className="text-2xl font-bold mb-6">Get in Touch</h2>

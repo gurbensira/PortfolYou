@@ -75,7 +75,7 @@ export const editUserProfile = async (userId, userDetailsForServer) => {
             {
                 headers: {
                     'x-auth-token': token
-                    // Content-Type will be set automatically for FormData
+                   
                 }
             }
         );
