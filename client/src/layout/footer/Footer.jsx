@@ -22,23 +22,23 @@ function Footer() {
                             About
                         </Link>
                         <Link
-                            to={ROUTES.root}
+                            to={ROUTES.contactPage}
                             className='text-gray-600 hover:text-gray-900 transition-colors'
                         >
                             Contact
                         </Link>
-                        <a
+                        {/* <a
                             href='#'
                             className='text-gray-600 hover:text-gray-900 transition-colors'
                         >
                             Privacy
-                        </a>
-                        <a
+                        </a> */}
+                        {/* <a
                             href='#'
                             className='text-gray-600 hover:text-gray-900 transition-colors'
                         >
                             Terms
-                        </a>
+                        </a> */}
                     </div>
                 </div>
             </div>

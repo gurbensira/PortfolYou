@@ -12,6 +12,7 @@ const ROUTES = {
     login: "/login",
     userProfile: "/user-profile",
     recruiterDashboard: "recruiter/dashboard",
+    contactPage: "/contactPage",
     sandbox: "/sandbox"
 };
 export default ROUTES;

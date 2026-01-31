@@ -16,6 +16,7 @@ import RecruiterDashboard from '../pages/pagesComponents/RecruiterDashboard';
 import JobsPage from '../pages/pagesComponents/JobsPage';
 import JobDetailPage from '../pages/pagesComponents/JobDetailPage';
 import CreateJobPage from '../pages/pagesComponents/CreateJobPage';
+import ContactPage from '../pages/pagesComponents/ContactPage';
 
 
 function Router() {
@@ -34,6 +35,7 @@ function Router() {
             <Route path={`${ROUTES.jobsDetailPage}/:id`} element={<JobDetailPage />}/>
             <Route path={ROUTES.createJob} element={<CreateJobPage />}/>
             <Route path={ROUTES.recruiterDashboard} element={<RecruiterDashboard />}/>
+            <Route path={ROUTES.contactPage} element={<ContactPage />}/>
             <Route path={ROUTES.sandbox} element={<SandBox />} />
             <Route path="/*" element={<ErrorPage />} />
         </Routes>
