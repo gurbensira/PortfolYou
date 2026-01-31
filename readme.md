@@ -301,6 +301,74 @@ If you don't have Cloudinary credentials:
 
 ---
 
+---
+
+## 🌱 Seed Database (Optional)
+
+If you want to populate your database with sample data for testing, you can use the seed script.
+
+### What the Seed Creates:
+
+The seed script will populate your database with:
+- **Sample Users** - Developers with profiles and project cards
+- **Sample Recruiters** - Recruiters with company information
+- **Sample Admin** - An admin account for testing admin features
+- **Sample Jobs** - Job postings from recruiters
+- **Sample Project Cards** - Developer portfolio projects
+
+### How to Run the Seed:
+
+**Make sure MongoDB is running first!**
+```bash
+# Navigate to the server folder
+cd server
+
+# Run the seed script
+npm run seed
+```
+
+### After Seeding:
+
+You'll see a message in the terminal showing:
+- How many users were created
+- How many recruiters were created
+- How many jobs were created
+- Sample login credentials
+
+**Sample Login Credentials** (created by seed):
+```
+Developer Account:
+Email: developer@example.com
+Password: [check terminal output]
+
+Recruiter Account:
+Email: recruiter@example.com
+Password: [check terminal output]
+
+Admin Account:
+Email: admin@example.com
+Password: [check terminal output]
+```
+
+### Resetting the Database:
+
+If you want to start fresh:
+
+1. Stop the server
+2. Delete the database:
+```bash
+   # In MongoDB shell or Compass
+   use portfolyou
+   db.dropDatabase()
+```
+3. Run the seed script again: `npm run seed`
+
+### Note:
+
+⚠️ **Warning:** Running the seed script multiple times may create duplicate data. It's best to drop the database first if you want to re-seed.
+
+---
+
 ## 📄 License
 
 This project was created as part of the HackerU Full Stack Development course.
