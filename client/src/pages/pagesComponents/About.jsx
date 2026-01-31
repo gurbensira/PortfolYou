@@ -32,10 +32,10 @@ function About() {
                     </h2>
                     <div className="space-y-4 text-gray-700 leading-relaxed">
                         <p>
-                            PortfolYou is a dynamic portfolio platform designed for creative professionals to showcase their work and connect with like-minded individuals. Whether you're a developer, designer, photographer, or any other creative professional, PortfolYou provides you with the tools to build your online presence and discover inspiring work from others.
+                           PortfolYou is a dynamic portfolio platform designed for creative professionals to showcase their work and connect with like-minded individuals. Whether you're a developer, designer, photographer, or any other creative professional, PortfolYou provides you with the tools to build your online presence and discover inspiring work from others. For recruiters and hiring managers, PortfolYou offers a streamlined way to discover top talent and post job opportunities.
                         </p>
                         <p>
-                            Our platform combines the best aspects of social networking with professional portfolio management, allowing you to share your projects, follow other creators, and build a community around your craft.
+                           Our platform combines the best aspects of social networking with professional portfolio management, allowing you to share your projects, follow other creators, and build a community around your craft. Recruiters can browse developer portfolios, post job listings, and connect with qualified candidates all in one place.
                         </p>
                     </div>
                 </div>
@@ -57,7 +57,7 @@ function About() {
                                     Create Your Account
                                 </h3>
                                 <p className="text-gray-600 mb-2">
-                                    Sign up with your email, name, and professional information. Complete your profile with a photo, profession, and location to help others connect with you.
+                                    Sign up as a developer or recruiter with your email, name, and professional information. Developers complete their profile with a photo, profession, and location. Recruiters provide company details, industry, and job title to help developers connect with you.
                                 </p>
                                 {!user && (
                                     <button
